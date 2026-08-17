@@ -1,0 +1,3 @@
+[submodule "eliferpg-core"]
+	path = eliferpg-core
+	url = https://github.com/ELifeRPG/backend.git

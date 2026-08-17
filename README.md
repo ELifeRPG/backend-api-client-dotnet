@@ -16,11 +16,19 @@ First time, restore the local `kiota` tool (defined in `.config/dotnet-tools.jso
 dotnet tool restore
 ```
 
-Then, against a local copy of `eliferpg-core`'s OpenAPI spec:
+`eliferpg-core` is vendored as a git submodule at `eliferpg-core/` (spec-only, via sparse-checkout)
+so the exact commit the client was generated from is tracked in git history. Initialize it, then
+generate against its spec:
 
 ```sh
-bash scripts/generate-client.sh --openapi path/to/eliferpg-api-v1.json
+git submodule update --init eliferpg-core
+
+bash scripts/generate-client.sh --openapi eliferpg-core/openapi/eliferpg-api-v1.json
 ```
+
+To regenerate against a newer Central API, update the submodule first (`cd eliferpg-core && git
+pull origin main && cd ..`), then re-run the script and commit both the submodule bump and the
+regenerated `Generated/` diff together.
 
 Kiota's CLI targets a stable .NET runtime — this repo's `global.json` already pins one (unlike
 `eliferpg-core`/`eliferpg-reforger-bridge`, which build against a preview SDK and need a stable
@@ -39,18 +47,19 @@ optional `core_ref` input) to run a regeneration on demand.
 
 Once triggered, the workflow:
 
-1. Fetches `eliferpg-core`'s current `openapi/eliferpg-api-v1.json`.
-2. Diffs it against `openapi/current.json` (this repo's committed baseline) using
+1. Checks out the `eliferpg-core` submodule at its currently-committed pin (the "old" spec) and
+   saves a copy of its spec file.
+2. Updates the submodule to the target ref (the dispatched commit SHA, or `core_ref` on a manual
+   run) and diffs the new spec against the saved copy using
    [`oasdiff`](https://github.com/oasdiff/oasdiff).
-   - No differences → workflow stops, nothing is released.
+   - No differences → workflow stops, nothing is released, the submodule bump is discarded.
    - Only additive/non-breaking differences → **minor** version bump.
    - Any breaking differences → **major** version bump.
-3. Regenerates the client, commits the diff (`feat:` / `feat!:` depending on breaking-ness) and
-   tags `vX.Y.Z`.
+3. Regenerates the client, commits the diff (`feat:` / `feat!:` depending on breaking-ness) — the
+   commit includes the submodule pointer bump, so the exact `eliferpg-core` commit the client was
+   generated from is always recoverable from git history — and tags `vX.Y.Z`.
 4. Packs and publishes `ELifeRPG.BackendApiClient` to GitHub Packages, and creates a GitHub
    Release with an `oasdiff`-derived changelog.
-
-The very first run (no `openapi/current.json` committed yet) always produces `v1.0.0`.
 
 ## Consuming the package
 

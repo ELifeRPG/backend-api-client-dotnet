@@ -25,13 +25,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          submodules: true
 
-      - name: Checkout eliferpg-core
-        uses: actions/checkout@v4
-        with:
-          repository: ELifeRPG/backend
-          ref: ${{ github.event.client_payload.sha || github.event.inputs.core_ref || 'main' }}
-          path: eliferpg-core
+      - name: Save old spec
+        run: cp eliferpg-core/openapi/eliferpg-api-v1.json old-spec.json
+
+      - name: Update eliferpg-core submodule to target ref
+        run: |
+          set -euo pipefail
+          target_ref="${{ github.event.client_payload.sha || github.event.inputs.core_ref || 'main' }}"
+          git -C eliferpg-core fetch --depth 1 origin "${target_ref}"
+          git -C eliferpg-core checkout FETCH_HEAD
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -55,19 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           new_spec="eliferpg-core/openapi/eliferpg-api-v1.json"
-          old_spec="openapi/current.json"
-
-          if [[ ! -f "$new_spec" ]]; then
-            echo "eliferpg-core does not have openapi/eliferpg-api-v1.json at this ref" >&2
-            exit 1
-          fi
-
-          if [[ ! -f "$old_spec" ]]; then
-            echo "No baseline spec committed yet — treating as the initial release."
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "bump=initial" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          old_spec="old-spec.json"
 
           diff_json="$(oasdiff diff "$old_spec" "$new_spec" -f json)"
           if [[ "$diff_json" == "{}" ]]; then
@@ -93,29 +85,22 @@ jobs:
           set -euo pipefail
           bump="${{ steps.classify.outputs.bump }}"
 
-          if [[ "$bump" == "initial" ]]; then
-            next="1.0.0"
-          else
-            latest_tag="$(git tag --list 'v*' --sort=-v:refname | head -n1)"
-            latest="${latest_tag#v}"
-            latest="${latest:-0.0.0}"
-            IFS='.' read -r major minor patch <<< "$latest"
+          latest_tag="$(git tag --list 'v*' --sort=-v:refname | head -n1)"
+          latest="${latest_tag#v}"
+          latest="${latest:-0.0.0}"
+          IFS='.' read -r major minor patch <<< "$latest"
 
-            if [[ "$bump" == "major" ]]; then
-              next="$((major + 1)).0.0"
-            else
-              next="${major}.$((minor + 1)).0"
-            fi
+          if [[ "$bump" == "major" ]]; then
+            next="$((major + 1)).0.0"
+          else
+            next="${major}.$((minor + 1)).0"
           fi
 
           echo "version=${next}" >> "$GITHUB_OUTPUT"
 
       - name: Generate client
         if: steps.classify.outputs.skip != 'true'
-        run: |
-          bash scripts/generate-client.sh --openapi eliferpg-core/openapi/eliferpg-api-v1.json
-          mkdir -p openapi
-          cp eliferpg-core/openapi/eliferpg-api-v1.json openapi/current.json
+        run: bash scripts/generate-client.sh --openapi eliferpg-core/openapi/eliferpg-api-v1.json
 
       - name: Commit and tag
         if: steps.classify.outputs.skip != 'true'
@@ -129,10 +114,8 @@ jobs:
 
           if [[ "$BUMP" == "major" ]]; then
             subject="feat!: regenerate client for breaking Central API changes"
-          elif [[ "$BUMP" == "minor" ]]; then
-            subject="feat: regenerate client for additive Central API changes"
           else
-            subject="feat: initial client generation"
+            subject="feat: regenerate client for additive Central API changes"
           fi
 
           {
@@ -143,7 +126,7 @@ jobs:
             fi
           } > commit-message.txt
 
-          git add src/ELifeRPG.BackendApiClient/Generated openapi/current.json
+          git add eliferpg-core src/ELifeRPG.BackendApiClient/Generated
           git commit -F commit-message.txt
           git tag "v${VERSION}"
           git push origin main
@@ -175,7 +158,7 @@ jobs:
         run: |
           notes_file="changelog.txt"
           if [[ ! -s "$notes_file" ]]; then
-            echo "Initial release." > "$notes_file"
+            echo "No changelog available." > "$notes_file"
           fi
           gh release create "v${VERSION}" artifacts/*.nupkg \
             --title "v${VERSION}" \
