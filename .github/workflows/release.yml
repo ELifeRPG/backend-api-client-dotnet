@@ -1,0 +1,182 @@
+name: Regenerate and release
+
+on:
+  repository_dispatch:
+    types: [ core-spec-updated ]
+  workflow_dispatch:
+    inputs:
+      core_ref:
+        description: "eliferpg-core ref/SHA to generate against (defaults to main)"
+        required: false
+        default: main
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  OASDIFF_VERSION: "1.29.1"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout backend-api-client-dotnet
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout eliferpg-core
+        uses: actions/checkout@v4
+        with:
+          repository: ELifeRPG/backend
+          ref: ${{ github.event.client_payload.sha || github.event.inputs.core_ref || 'main' }}
+          path: eliferpg-core
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Install oasdiff
+        run: |
+          curl -sSL -o oasdiff.tar.gz \
+            "https://github.com/oasdiff/oasdiff/releases/download/v${OASDIFF_VERSION}/oasdiff_${OASDIFF_VERSION}_linux_amd64.tar.gz"
+          tar -xzf oasdiff.tar.gz oasdiff
+          chmod +x oasdiff
+          sudo mv oasdiff /usr/local/bin/oasdiff
+          oasdiff --version
+
+      - name: Restore kiota tool
+        run: dotnet tool restore
+
+      - name: Classify spec change
+        id: classify
+        run: |
+          set -euo pipefail
+          new_spec="eliferpg-core/openapi/eliferpg-api-v1.json"
+          old_spec="openapi/current.json"
+
+          if [[ ! -f "$new_spec" ]]; then
+            echo "eliferpg-core does not have openapi/eliferpg-api-v1.json at this ref" >&2
+            exit 1
+          fi
+
+          if [[ ! -f "$old_spec" ]]; then
+            echo "No baseline spec committed yet — treating as the initial release."
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "bump=initial" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          diff_json="$(oasdiff diff "$old_spec" "$new_spec" -f json)"
+          if [[ "$diff_json" == "{}" ]]; then
+            echo "No spec changes detected — skipping release."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          breaking_json="$(oasdiff breaking "$old_spec" "$new_spec" -f json)"
+          if [[ "$breaking_json" != "[]" ]]; then
+            echo "bump=major" >> "$GITHUB_OUTPUT"
+          else
+            echo "bump=minor" >> "$GITHUB_OUTPUT"
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+          oasdiff changelog "$old_spec" "$new_spec" > changelog.txt || true
+
+      - name: Compute next version
+        id: version
+        if: steps.classify.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          bump="${{ steps.classify.outputs.bump }}"
+
+          if [[ "$bump" == "initial" ]]; then
+            next="1.0.0"
+          else
+            latest_tag="$(git tag --list 'v*' --sort=-v:refname | head -n1)"
+            latest="${latest_tag#v}"
+            latest="${latest:-0.0.0}"
+            IFS='.' read -r major minor patch <<< "$latest"
+
+            if [[ "$bump" == "major" ]]; then
+              next="$((major + 1)).0.0"
+            else
+              next="${major}.$((minor + 1)).0"
+            fi
+          fi
+
+          echo "version=${next}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate client
+        if: steps.classify.outputs.skip != 'true'
+        run: |
+          bash scripts/generate-client.sh --openapi eliferpg-core/openapi/eliferpg-api-v1.json
+          mkdir -p openapi
+          cp eliferpg-core/openapi/eliferpg-api-v1.json openapi/current.json
+
+      - name: Commit and tag
+        if: steps.classify.outputs.skip != 'true'
+        env:
+          BUMP: ${{ steps.classify.outputs.bump }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [[ "$BUMP" == "major" ]]; then
+            subject="feat!: regenerate client for breaking Central API changes"
+          elif [[ "$BUMP" == "minor" ]]; then
+            subject="feat: regenerate client for additive Central API changes"
+          else
+            subject="feat: initial client generation"
+          fi
+
+          {
+            echo "$subject"
+            echo
+            if [[ -f changelog.txt ]]; then
+              cat changelog.txt
+            fi
+          } > commit-message.txt
+
+          git add src/ELifeRPG.BackendApiClient/Generated openapi/current.json
+          git commit -F commit-message.txt
+          git tag "v${VERSION}"
+          git push origin main
+          git push origin "v${VERSION}"
+
+      - name: Pack
+        if: steps.classify.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          dotnet pack src/ELifeRPG.BackendApiClient/ELifeRPG.BackendApiClient.csproj \
+            --configuration Release \
+            -p:Version="${VERSION}" \
+            --output artifacts
+
+      - name: Publish to GitHub Packages
+        if: steps.classify.outputs.skip != 'true'
+        run: |
+          dotnet nuget push "artifacts/*.nupkg" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --source "https://nuget.pkg.github.com/ELifeRPG/index.json" \
+            --skip-duplicate
+
+      - name: Create GitHub Release
+        if: steps.classify.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          notes_file="changelog.txt"
+          if [[ ! -s "$notes_file" ]]; then
+            echo "Initial release." > "$notes_file"
+          fi
+          gh release create "v${VERSION}" artifacts/*.nupkg \
+            --title "v${VERSION}" \
+            --notes-file "$notes_file"
