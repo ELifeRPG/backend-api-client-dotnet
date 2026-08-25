@@ -2,6 +2,7 @@
 #pragma warning disable CS0618
 using ELifeRPG.BackendApiClient.Api.Characters.Item.BankAccounts;
 using ELifeRPG.BackendApiClient.Api.Characters.Item.Sessions;
+using ELifeRPG.BackendApiClient.Api.Characters.Item.Skills;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace ELifeRPG.BackendApiClient.Api.Characters.Item
         public global::ELifeRPG.BackendApiClient.Api.Characters.Item.Sessions.SessionsRequestBuilder Sessions
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Characters.Item.Sessions.SessionsRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The skills property</summary>
+        public global::ELifeRPG.BackendApiClient.Api.Characters.Item.Skills.SkillsRequestBuilder Skills
+        {
+            get => new global::ELifeRPG.BackendApiClient.Api.Characters.Item.Skills.SkillsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Characters.Item.WithCharacterItemRequestBuilder"/> and sets the default values.

@@ -12,8 +12,6 @@ namespace ELifeRPG.BackendApiClient.Models
     public partial class SubmitWhitelistApplicationRequestDto : IAdditionalDataHolder, IParsable
     #pragma warning restore CS1591
     {
-        /// <summary>The accountId property</summary>
-        public Guid? AccountId { get; set; }
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The applicationText property</summary>
@@ -49,7 +47,6 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "accountId", n => { AccountId = n.GetGuidValue(); } },
                 { "applicationText", n => { ApplicationText = n.GetStringValue(); } },
             };
         }
@@ -60,7 +57,6 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteGuidValue("accountId", AccountId);
             writer.WriteStringValue("applicationText", ApplicationText);
             writer.WriteAdditionalData(AdditionalData);
         }

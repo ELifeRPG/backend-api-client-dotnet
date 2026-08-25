@@ -16,13 +16,15 @@ namespace ELifeRPG.BackendApiClient.Models
         public Guid? AccountId { get; set; }
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The keycloakUsername property</summary>
+        /// <summary>The keycloakUserId property</summary>
+        public Guid? KeycloakUserId { get; set; }
+        /// <summary>The linkPin property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? KeycloakUsername { get; set; }
+        public string? LinkPin { get; set; }
 #nullable restore
 #else
-        public string KeycloakUsername { get; set; }
+        public string LinkPin { get; set; }
 #endif
         /// <summary>The status property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -58,7 +60,8 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "accountId", n => { AccountId = n.GetGuidValue(); } },
-                { "keycloakUsername", n => { KeycloakUsername = n.GetStringValue(); } },
+                { "keycloakUserId", n => { KeycloakUserId = n.GetGuidValue(); } },
+                { "linkPin", n => { LinkPin = n.GetStringValue(); } },
                 { "status", n => { Status = n.GetStringValue(); } },
             };
         }
@@ -70,7 +73,8 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("accountId", AccountId);
-            writer.WriteStringValue("keycloakUsername", KeycloakUsername);
+            writer.WriteGuidValue("keycloakUserId", KeycloakUserId);
+            writer.WriteStringValue("linkPin", LinkPin);
             writer.WriteStringValue("status", Status);
             writer.WriteAdditionalData(AdditionalData);
         }

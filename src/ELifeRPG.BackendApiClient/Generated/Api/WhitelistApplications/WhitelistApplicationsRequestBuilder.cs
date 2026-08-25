@@ -79,7 +79,7 @@ namespace ELifeRPG.BackendApiClient.Api.WhitelistApplications
             return collectionResult?.AsList();
         }
         /// <summary>
-        /// Submits an account&apos;s whitelist application for the calling server.
+        /// Submits the calling player&apos;s own whitelist application for the hive. The account is derived from the caller&apos;s Keycloak subject; a player may apply before ever joining the gameserver.
         /// </summary>
         /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.WhitelistApplicationSubmittedDto"/></returns>
         /// <param name="body">The request body</param>
@@ -127,7 +127,7 @@ namespace ELifeRPG.BackendApiClient.Api.WhitelistApplications
             return requestInfo;
         }
         /// <summary>
-        /// Submits an account&apos;s whitelist application for the calling server.
+        /// Submits the calling player&apos;s own whitelist application for the hive. The account is derived from the caller&apos;s Keycloak subject; a player may apply before ever joining the gameserver.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

@@ -36,6 +36,8 @@ namespace ELifeRPG.BackendApiClient.Models
 #endif
         /// <summary>The payoutBankAccountId property</summary>
         public Guid? PayoutBankAccountId { get; set; }
+        /// <summary>The serverId property</summary>
+        public Guid? ServerId { get; set; }
         /// <summary>The shopId property</summary>
         public Guid? ShopId { get; set; }
         /// <summary>
@@ -68,6 +70,7 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "ownerCompanyId", n => { OwnerCompanyId = n.GetGuidValue(); } },
                 { "ownerType", n => { OwnerType = n.GetStringValue(); } },
                 { "payoutBankAccountId", n => { PayoutBankAccountId = n.GetGuidValue(); } },
+                { "serverId", n => { ServerId = n.GetGuidValue(); } },
                 { "shopId", n => { ShopId = n.GetGuidValue(); } },
             };
         }
@@ -83,6 +86,7 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("ownerCompanyId", OwnerCompanyId);
             writer.WriteStringValue("ownerType", OwnerType);
             writer.WriteGuidValue("payoutBankAccountId", PayoutBankAccountId);
+            writer.WriteGuidValue("serverId", ServerId);
             writer.WriteGuidValue("shopId", ShopId);
             writer.WriteAdditionalData(AdditionalData);
         }

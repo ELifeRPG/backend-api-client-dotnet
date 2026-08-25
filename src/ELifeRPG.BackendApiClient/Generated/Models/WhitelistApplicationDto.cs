@@ -24,14 +24,6 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string ApplicationText { get; set; }
 #endif
-        /// <summary>The serverClientId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ServerClientId { get; set; }
-#nullable restore
-#else
-        public string ServerClientId { get; set; }
-#endif
         /// <summary>The status property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -69,7 +61,6 @@ namespace ELifeRPG.BackendApiClient.Models
             {
                 { "accountId", n => { AccountId = n.GetGuidValue(); } },
                 { "applicationText", n => { ApplicationText = n.GetStringValue(); } },
-                { "serverClientId", n => { ServerClientId = n.GetStringValue(); } },
                 { "status", n => { Status = n.GetStringValue(); } },
                 { "whitelistApplicationId", n => { WhitelistApplicationId = n.GetGuidValue(); } },
             };
@@ -83,7 +74,6 @@ namespace ELifeRPG.BackendApiClient.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("accountId", AccountId);
             writer.WriteStringValue("applicationText", ApplicationText);
-            writer.WriteStringValue("serverClientId", ServerClientId);
             writer.WriteStringValue("status", Status);
             writer.WriteGuidValue("whitelistApplicationId", WhitelistApplicationId);
             writer.WriteAdditionalData(AdditionalData);

@@ -6,8 +6,10 @@ using ELifeRPG.BackendApiClient.Api.Banks;
 using ELifeRPG.BackendApiClient.Api.Characters;
 using ELifeRPG.BackendApiClient.Api.Companies;
 using ELifeRPG.BackendApiClient.Api.GameServers;
+using ELifeRPG.BackendApiClient.Api.Hive;
 using ELifeRPG.BackendApiClient.Api.Items;
 using ELifeRPG.BackendApiClient.Api.Shops;
+using ELifeRPG.BackendApiClient.Api.Skills;
 using ELifeRPG.BackendApiClient.Api.WhitelistApplications;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
@@ -53,6 +55,11 @@ namespace ELifeRPG.BackendApiClient.Api
         {
             get => new global::ELifeRPG.BackendApiClient.Api.GameServers.GameServersRequestBuilder(PathParameters, RequestAdapter);
         }
+        /// <summary>The hive property</summary>
+        public global::ELifeRPG.BackendApiClient.Api.Hive.HiveRequestBuilder Hive
+        {
+            get => new global::ELifeRPG.BackendApiClient.Api.Hive.HiveRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The items property</summary>
         public global::ELifeRPG.BackendApiClient.Api.Items.ItemsRequestBuilder Items
         {
@@ -62,6 +69,11 @@ namespace ELifeRPG.BackendApiClient.Api
         public global::ELifeRPG.BackendApiClient.Api.Shops.ShopsRequestBuilder Shops
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Shops.ShopsRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The skills property</summary>
+        public global::ELifeRPG.BackendApiClient.Api.Skills.SkillsRequestBuilder Skills
+        {
+            get => new global::ELifeRPG.BackendApiClient.Api.Skills.SkillsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The whitelistApplications property</summary>
         public global::ELifeRPG.BackendApiClient.Api.WhitelistApplications.WhitelistApplicationsRequestBuilder WhitelistApplications

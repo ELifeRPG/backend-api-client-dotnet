@@ -16,6 +16,8 @@ namespace ELifeRPG.BackendApiClient.Models
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The characterId property</summary>
         public Guid? CharacterId { get; set; }
+        /// <summary>The currentServerId property</summary>
+        public Guid? CurrentServerId { get; set; }
         /// <summary>The name property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -56,6 +58,7 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "characterId", n => { CharacterId = n.GetGuidValue(); } },
+                { "currentServerId", n => { CurrentServerId = n.GetGuidValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "sessionActive", n => { SessionActive = n.GetBoolValue(); } },
                 { "sessionEndedAt", n => { SessionEndedAt = n.GetDateTimeOffsetValue(); } },
@@ -70,6 +73,7 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("characterId", CharacterId);
+            writer.WriteGuidValue("currentServerId", CurrentServerId);
             writer.WriteStringValue("name", Name);
             writer.WriteBoolValue("sessionActive", SessionActive);
             writer.WriteDateTimeOffsetValue("sessionEndedAt", SessionEndedAt);
