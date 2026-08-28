@@ -33,6 +33,8 @@ namespace ELifeRPG.BackendApiClient.Models
 #endif
         /// <summary>The primary error message.</summary>
         public override string Message { get => base.Message; }
+        /// <summary>Whether resending this exact request unmodified can succeed. Present on every problem the World module returns; absent elsewhere, and an absent value means false. See docs/bridge.md.</summary>
+        public bool? Retryable { get; set; }
         /// <summary>The status property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -84,6 +86,7 @@ namespace ELifeRPG.BackendApiClient.Models
             {
                 { "detail", n => { Detail = n.GetStringValue(); } },
                 { "instance", n => { Instance = n.GetStringValue(); } },
+                { "retryable", n => { Retryable = n.GetBoolValue(); } },
                 { "status", n => { Status = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "title", n => { Title = n.GetStringValue(); } },
                 { "type", n => { Type = n.GetStringValue(); } },
@@ -98,6 +101,7 @@ namespace ELifeRPG.BackendApiClient.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("detail", Detail);
             writer.WriteStringValue("instance", Instance);
+            writer.WriteBoolValue("retryable", Retryable);
             writer.WriteObjectValue<UntypedNode>("status", Status);
             writer.WriteStringValue("title", Title);
             writer.WriteStringValue("type", Type);

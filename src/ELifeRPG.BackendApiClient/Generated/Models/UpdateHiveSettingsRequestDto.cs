@@ -14,6 +14,22 @@ namespace ELifeRPG.BackendApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
+        /// <summary>The smsMaxBodyLength property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? SmsMaxBodyLength { get; set; }
+#nullable restore
+#else
+        public UntypedNode SmsMaxBodyLength { get; set; }
+#endif
+        /// <summary>The smsPerMinutePerSim property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? SmsPerMinutePerSim { get; set; }
+#nullable restore
+#else
+        public UntypedNode SmsPerMinutePerSim { get; set; }
+#endif
         /// <summary>The whitelistEnabled property</summary>
         public bool? WhitelistEnabled { get; set; }
         /// <summary>
@@ -41,6 +57,8 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "smsMaxBodyLength", n => { SmsMaxBodyLength = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "smsPerMinutePerSim", n => { SmsPerMinutePerSim = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "whitelistEnabled", n => { WhitelistEnabled = n.GetBoolValue(); } },
             };
         }
@@ -51,6 +69,8 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteObjectValue<UntypedNode>("smsMaxBodyLength", SmsMaxBodyLength);
+            writer.WriteObjectValue<UntypedNode>("smsPerMinutePerSim", SmsPerMinutePerSim);
             writer.WriteBoolValue("whitelistEnabled", WhitelistEnabled);
             writer.WriteAdditionalData(AdditionalData);
         }

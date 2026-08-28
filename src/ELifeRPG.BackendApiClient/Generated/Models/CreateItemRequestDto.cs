@@ -22,6 +22,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string DisplayName { get; set; }
 #endif
+        /// <summary>The persistence property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Persistence { get; set; }
+#nullable restore
+#else
+        public string Persistence { get; set; }
+#endif
         /// <summary>The prefabClassName property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -56,6 +64,7 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "displayName", n => { DisplayName = n.GetStringValue(); } },
+                { "persistence", n => { Persistence = n.GetStringValue(); } },
                 { "prefabClassName", n => { PrefabClassName = n.GetStringValue(); } },
             };
         }
@@ -67,6 +76,7 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("displayName", DisplayName);
+            writer.WriteStringValue("persistence", Persistence);
             writer.WriteStringValue("prefabClassName", PrefabClassName);
             writer.WriteAdditionalData(AdditionalData);
         }
