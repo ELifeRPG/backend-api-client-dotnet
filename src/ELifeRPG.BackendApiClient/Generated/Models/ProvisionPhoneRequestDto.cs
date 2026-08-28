@@ -16,8 +16,14 @@ namespace ELifeRPG.BackendApiClient.Models
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The characterId property</summary>
         public Guid? CharacterId { get; set; }
-        /// <summary>The modelId property</summary>
-        public Guid? ModelId { get; set; }
+        /// <summary>The pin property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Pin { get; set; }
+#nullable restore
+#else
+        public string Pin { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneRequestDto"/> and sets the default values.
         /// </summary>
@@ -44,7 +50,7 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "characterId", n => { CharacterId = n.GetGuidValue(); } },
-                { "modelId", n => { ModelId = n.GetGuidValue(); } },
+                { "pin", n => { Pin = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -55,7 +61,7 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("characterId", CharacterId);
-            writer.WriteGuidValue("modelId", ModelId);
+            writer.WriteStringValue("pin", Pin);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

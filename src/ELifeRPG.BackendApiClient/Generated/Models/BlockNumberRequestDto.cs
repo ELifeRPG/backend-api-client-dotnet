@@ -24,6 +24,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string Number { get; set; }
 #endif
+        /// <summary>The pin property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Pin { get; set; }
+#nullable restore
+#else
+        public string Pin { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.BlockNumberRequestDto"/> and sets the default values.
         /// </summary>
@@ -51,6 +59,7 @@ namespace ELifeRPG.BackendApiClient.Models
             {
                 { "characterId", n => { CharacterId = n.GetGuidValue(); } },
                 { "number", n => { Number = n.GetStringValue(); } },
+                { "pin", n => { Pin = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -62,6 +71,7 @@ namespace ELifeRPG.BackendApiClient.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("characterId", CharacterId);
             writer.WriteStringValue("number", Number);
+            writer.WriteStringValue("pin", Pin);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

@@ -18,6 +18,14 @@ namespace ELifeRPG.BackendApiClient.Models
         public Guid? CharacterId { get; set; }
         /// <summary>The isPoweredOn property</summary>
         public bool? IsPoweredOn { get; set; }
+        /// <summary>The pin property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Pin { get; set; }
+#nullable restore
+#else
+        public string Pin { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.SetPhonePowerRequestDto"/> and sets the default values.
         /// </summary>
@@ -45,6 +53,7 @@ namespace ELifeRPG.BackendApiClient.Models
             {
                 { "characterId", n => { CharacterId = n.GetGuidValue(); } },
                 { "isPoweredOn", n => { IsPoweredOn = n.GetBoolValue(); } },
+                { "pin", n => { Pin = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -56,6 +65,7 @@ namespace ELifeRPG.BackendApiClient.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("characterId", CharacterId);
             writer.WriteBoolValue("isPoweredOn", IsPoweredOn);
+            writer.WriteStringValue("pin", Pin);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

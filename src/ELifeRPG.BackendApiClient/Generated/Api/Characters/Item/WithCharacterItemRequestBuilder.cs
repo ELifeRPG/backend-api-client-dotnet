@@ -3,7 +3,6 @@
 using ELifeRPG.BackendApiClient.Api.Characters.Item.BankAccounts;
 using ELifeRPG.BackendApiClient.Api.Characters.Item.Phones;
 using ELifeRPG.BackendApiClient.Api.Characters.Item.Sessions;
-using ELifeRPG.BackendApiClient.Api.Characters.Item.SimCards;
 using ELifeRPG.BackendApiClient.Api.Characters.Item.Skills;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
@@ -33,11 +32,6 @@ namespace ELifeRPG.BackendApiClient.Api.Characters.Item
         public global::ELifeRPG.BackendApiClient.Api.Characters.Item.Sessions.SessionsRequestBuilder Sessions
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Characters.Item.Sessions.SessionsRequestBuilder(PathParameters, RequestAdapter);
-        }
-        /// <summary>The simCards property</summary>
-        public global::ELifeRPG.BackendApiClient.Api.Characters.Item.SimCards.SimCardsRequestBuilder SimCards
-        {
-            get => new global::ELifeRPG.BackendApiClient.Api.Characters.Item.SimCards.SimCardsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The skills property</summary>
         public global::ELifeRPG.BackendApiClient.Api.Characters.Item.Skills.SkillsRequestBuilder Skills

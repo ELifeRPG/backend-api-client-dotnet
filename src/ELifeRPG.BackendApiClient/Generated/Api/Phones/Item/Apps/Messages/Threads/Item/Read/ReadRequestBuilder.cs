@@ -9,32 +9,32 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Power
+namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.Item.Read
 {
     /// <summary>
-    /// Builds and executes requests for operations under \api\phones\{phoneId}\power
+    /// Builds and executes requests for operations under \api\phones\{phoneId}\apps\messages\threads\{threadId}\read
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class PowerRequestBuilder : BaseRequestBuilder
+    public partial class ReadRequestBuilder : BaseRequestBuilder
     {
         /// <summary>
-        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Phones.Item.Power.PowerRequestBuilder"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.Item.Read.ReadRequestBuilder"/> and sets the default values.
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public PowerRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/power", pathParameters)
+        public ReadRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/messages/threads/{threadId}/read", pathParameters)
         {
         }
         /// <summary>
-        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Phones.Item.Power.PowerRequestBuilder"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.Item.Read.ReadRequestBuilder"/> and sets the default values.
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public PowerRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/power", rawUrl)
+        public ReadRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/messages/threads/{threadId}/read", rawUrl)
         {
         }
         /// <summary>
-        /// Powers a phone on or off. Powering on delivers anything queued for its number.
+        /// Clears a conversation&apos;s unread count.
         /// </summary>
         /// <returns>A <see cref="Stream"/></returns>
         /// <param name="body">The request body</param>
@@ -42,11 +42,11 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Power
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<Stream?> PostAsync(global::ELifeRPG.BackendApiClient.Models.SetPhonePowerRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<Stream?> PostAsync(global::ELifeRPG.BackendApiClient.Models.PhoneActorRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<Stream> PostAsync(global::ELifeRPG.BackendApiClient.Models.SetPhonePowerRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<Stream> PostAsync(global::ELifeRPG.BackendApiClient.Models.PhoneActorRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
@@ -54,18 +54,18 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Power
             return await RequestAdapter.SendPrimitiveAsync<Stream>(requestInfo, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Powers a phone on or off. Powering on delivers anything queued for its number.
+        /// Clears a conversation&apos;s unread count.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public RequestInformation ToPostRequestInformation(global::ELifeRPG.BackendApiClient.Models.SetPhonePowerRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
+        public RequestInformation ToPostRequestInformation(global::ELifeRPG.BackendApiClient.Models.PhoneActorRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
         {
 #nullable restore
 #else
-        public RequestInformation ToPostRequestInformation(global::ELifeRPG.BackendApiClient.Models.SetPhonePowerRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
+        public RequestInformation ToPostRequestInformation(global::ELifeRPG.BackendApiClient.Models.PhoneActorRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
@@ -77,18 +77,18 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Power
         /// <summary>
         /// Returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
         /// </summary>
-        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Api.Phones.Item.Power.PowerRequestBuilder"/></returns>
+        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.Item.Read.ReadRequestBuilder"/></returns>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
-        public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Power.PowerRequestBuilder WithUrl(string rawUrl)
+        public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.Item.Read.ReadRequestBuilder WithUrl(string rawUrl)
         {
-            return new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Power.PowerRequestBuilder(rawUrl, RequestAdapter);
+            return new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.Item.Read.ReadRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.
         /// </summary>
         [Obsolete("This class is deprecated. Please use the generic RequestConfiguration class generated by the generator.")]
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class PowerRequestBuilderPostRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
+        public partial class ReadRequestBuilderPostRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
         {
         }
     }

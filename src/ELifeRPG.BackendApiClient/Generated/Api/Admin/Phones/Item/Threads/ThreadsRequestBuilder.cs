@@ -9,51 +9,51 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-namespace ELifeRPG.BackendApiClient.Api.Characters.Item.Phones
+namespace ELifeRPG.BackendApiClient.Api.Admin.Phones.Item.Threads
 {
     /// <summary>
-    /// Builds and executes requests for operations under \api\characters\{characterId}\phones
+    /// Builds and executes requests for operations under \api\admin\phones\{phoneId}\threads
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class PhonesRequestBuilder : BaseRequestBuilder
+    public partial class ThreadsRequestBuilder : BaseRequestBuilder
     {
         /// <summary>
-        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Characters.Item.Phones.PhonesRequestBuilder"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Admin.Phones.Item.Threads.ThreadsRequestBuilder"/> and sets the default values.
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public PhonesRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/characters/{characterId}/phones", pathParameters)
+        public ThreadsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/admin/phones/{phoneId}/threads", pathParameters)
         {
         }
         /// <summary>
-        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Characters.Item.Phones.PhonesRequestBuilder"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Admin.Phones.Item.Threads.ThreadsRequestBuilder"/> and sets the default values.
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public PhonesRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/characters/{characterId}/phones", rawUrl)
+        public ThreadsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/admin/phones/{phoneId}/threads", rawUrl)
         {
         }
         /// <summary>
-        /// Lists the phones registered to a character. A character may hold several, each with its own number.
+        /// Staff: reads a phone&apos;s conversations.
         /// </summary>
-        /// <returns>A List&lt;global::ELifeRPG.BackendApiClient.Models.PhoneDto&gt;</returns>
+        /// <returns>A List&lt;global::ELifeRPG.BackendApiClient.Models.MessageThreadDto&gt;</returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<global::ELifeRPG.BackendApiClient.Models.PhoneDto>?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<List<global::ELifeRPG.BackendApiClient.Models.MessageThreadDto>?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<global::ELifeRPG.BackendApiClient.Models.PhoneDto>> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<List<global::ELifeRPG.BackendApiClient.Models.MessageThreadDto>> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::ELifeRPG.BackendApiClient.Models.PhoneDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.PhoneDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            var collectionResult = await RequestAdapter.SendCollectionAsync<global::ELifeRPG.BackendApiClient.Models.MessageThreadDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.MessageThreadDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
             return collectionResult?.AsList();
         }
         /// <summary>
-        /// Lists the phones registered to a character. A character may hold several, each with its own number.
+        /// Staff: reads a phone&apos;s conversations.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -74,18 +74,18 @@ namespace ELifeRPG.BackendApiClient.Api.Characters.Item.Phones
         /// <summary>
         /// Returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
         /// </summary>
-        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Api.Characters.Item.Phones.PhonesRequestBuilder"/></returns>
+        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Api.Admin.Phones.Item.Threads.ThreadsRequestBuilder"/></returns>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
-        public global::ELifeRPG.BackendApiClient.Api.Characters.Item.Phones.PhonesRequestBuilder WithUrl(string rawUrl)
+        public global::ELifeRPG.BackendApiClient.Api.Admin.Phones.Item.Threads.ThreadsRequestBuilder WithUrl(string rawUrl)
         {
-            return new global::ELifeRPG.BackendApiClient.Api.Characters.Item.Phones.PhonesRequestBuilder(rawUrl, RequestAdapter);
+            return new global::ELifeRPG.BackendApiClient.Api.Admin.Phones.Item.Threads.ThreadsRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.
         /// </summary>
         [Obsolete("This class is deprecated. Please use the generic RequestConfiguration class generated by the generator.")]
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class PhonesRequestBuilderGetRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
+        public partial class ThreadsRequestBuilderGetRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
         {
         }
     }

@@ -11,10 +11,8 @@ using ELifeRPG.BackendApiClient.Api.Gathering;
 using ELifeRPG.BackendApiClient.Api.Hive;
 using ELifeRPG.BackendApiClient.Api.Inventory;
 using ELifeRPG.BackendApiClient.Api.Items;
-using ELifeRPG.BackendApiClient.Api.PhoneModels;
 using ELifeRPG.BackendApiClient.Api.Phones;
 using ELifeRPG.BackendApiClient.Api.Shops;
-using ELifeRPG.BackendApiClient.Api.SimCards;
 using ELifeRPG.BackendApiClient.Api.Skills;
 using ELifeRPG.BackendApiClient.Api.WhitelistApplications;
 using Microsoft.Kiota.Abstractions.Extensions;
@@ -86,11 +84,6 @@ namespace ELifeRPG.BackendApiClient.Api
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Items.ItemsRequestBuilder(PathParameters, RequestAdapter);
         }
-        /// <summary>The phoneModels property</summary>
-        public global::ELifeRPG.BackendApiClient.Api.PhoneModels.PhoneModelsRequestBuilder PhoneModels
-        {
-            get => new global::ELifeRPG.BackendApiClient.Api.PhoneModels.PhoneModelsRequestBuilder(PathParameters, RequestAdapter);
-        }
         /// <summary>The phones property</summary>
         public global::ELifeRPG.BackendApiClient.Api.Phones.PhonesRequestBuilder Phones
         {
@@ -100,11 +93,6 @@ namespace ELifeRPG.BackendApiClient.Api
         public global::ELifeRPG.BackendApiClient.Api.Shops.ShopsRequestBuilder Shops
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Shops.ShopsRequestBuilder(PathParameters, RequestAdapter);
-        }
-        /// <summary>The simCards property</summary>
-        public global::ELifeRPG.BackendApiClient.Api.SimCards.SimCardsRequestBuilder SimCards
-        {
-            get => new global::ELifeRPG.BackendApiClient.Api.SimCards.SimCardsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The skills property</summary>
         public global::ELifeRPG.BackendApiClient.Api.Skills.SkillsRequestBuilder Skills

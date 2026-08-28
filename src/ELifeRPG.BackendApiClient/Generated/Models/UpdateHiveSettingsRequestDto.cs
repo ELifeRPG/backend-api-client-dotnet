@@ -14,6 +14,30 @@ namespace ELifeRPG.BackendApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
+        /// <summary>The phoneContactLimit property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? PhoneContactLimit { get; set; }
+#nullable restore
+#else
+        public UntypedNode PhoneContactLimit { get; set; }
+#endif
+        /// <summary>The phoneMaxGroupParticipants property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? PhoneMaxGroupParticipants { get; set; }
+#nullable restore
+#else
+        public UntypedNode PhoneMaxGroupParticipants { get; set; }
+#endif
+        /// <summary>The phoneThreadMessageLimit property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? PhoneThreadMessageLimit { get; set; }
+#nullable restore
+#else
+        public UntypedNode PhoneThreadMessageLimit { get; set; }
+#endif
         /// <summary>The smsMaxBodyLength property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -22,13 +46,13 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public UntypedNode SmsMaxBodyLength { get; set; }
 #endif
-        /// <summary>The smsPerMinutePerSim property</summary>
+        /// <summary>The smsPerMinutePerPhone property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public UntypedNode? SmsPerMinutePerSim { get; set; }
+        public UntypedNode? SmsPerMinutePerPhone { get; set; }
 #nullable restore
 #else
-        public UntypedNode SmsPerMinutePerSim { get; set; }
+        public UntypedNode SmsPerMinutePerPhone { get; set; }
 #endif
         /// <summary>The whitelistEnabled property</summary>
         public bool? WhitelistEnabled { get; set; }
@@ -57,8 +81,11 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "phoneContactLimit", n => { PhoneContactLimit = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "phoneMaxGroupParticipants", n => { PhoneMaxGroupParticipants = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "phoneThreadMessageLimit", n => { PhoneThreadMessageLimit = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "smsMaxBodyLength", n => { SmsMaxBodyLength = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
-                { "smsPerMinutePerSim", n => { SmsPerMinutePerSim = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "smsPerMinutePerPhone", n => { SmsPerMinutePerPhone = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "whitelistEnabled", n => { WhitelistEnabled = n.GetBoolValue(); } },
             };
         }
@@ -69,8 +96,11 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteObjectValue<UntypedNode>("phoneContactLimit", PhoneContactLimit);
+            writer.WriteObjectValue<UntypedNode>("phoneMaxGroupParticipants", PhoneMaxGroupParticipants);
+            writer.WriteObjectValue<UntypedNode>("phoneThreadMessageLimit", PhoneThreadMessageLimit);
             writer.WriteObjectValue<UntypedNode>("smsMaxBodyLength", SmsMaxBodyLength);
-            writer.WriteObjectValue<UntypedNode>("smsPerMinutePerSim", SmsPerMinutePerSim);
+            writer.WriteObjectValue<UntypedNode>("smsPerMinutePerPhone", SmsPerMinutePerPhone);
             writer.WriteBoolValue("whitelistEnabled", WhitelistEnabled);
             writer.WriteAdditionalData(AdditionalData);
         }

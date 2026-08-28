@@ -9,21 +9,31 @@ namespace ELifeRPG.BackendApiClient.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
-    public partial class SaveContactRequestDto : IAdditionalDataHolder, IParsable
+    public partial class PhoneDto : IAdditionalDataHolder, IParsable
     #pragma warning restore CS1591
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The characterId property</summary>
-        public Guid? CharacterId { get; set; }
-        /// <summary>The displayName property</summary>
+        /// <summary>The blockedNumbers property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? DisplayName { get; set; }
+        public List<string>? BlockedNumbers { get; set; }
 #nullable restore
 #else
-        public string DisplayName { get; set; }
+        public List<string> BlockedNumbers { get; set; }
 #endif
+        /// <summary>The id property</summary>
+        public Guid? Id { get; set; }
+        /// <summary>The installedApps property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<string>? InstalledApps { get; set; }
+#nullable restore
+#else
+        public List<string> InstalledApps { get; set; }
+#endif
+        /// <summary>The isPoweredOn property</summary>
+        public bool? IsPoweredOn { get; set; }
         /// <summary>The number property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -32,30 +42,32 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string Number { get; set; }
 #endif
-        /// <summary>The pin property</summary>
+        /// <summary>The registeredTo property</summary>
+        public Guid? RegisteredTo { get; set; }
+        /// <summary>The status property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Pin { get; set; }
+        public string? Status { get; set; }
 #nullable restore
 #else
-        public string Pin { get; set; }
+        public string Status { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.PhoneDto"/> and sets the default values.
         /// </summary>
-        public SaveContactRequestDto()
+        public PhoneDto()
         {
             AdditionalData = new Dictionary<string, object>();
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto"/></returns>
+        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.PhoneDto"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ELifeRPG.BackendApiClient.Models.PhoneDto CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto();
+            return new global::ELifeRPG.BackendApiClient.Models.PhoneDto();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -65,10 +77,13 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "characterId", n => { CharacterId = n.GetGuidValue(); } },
-                { "displayName", n => { DisplayName = n.GetStringValue(); } },
+                { "blockedNumbers", n => { BlockedNumbers = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
+                { "id", n => { Id = n.GetGuidValue(); } },
+                { "installedApps", n => { InstalledApps = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
+                { "isPoweredOn", n => { IsPoweredOn = n.GetBoolValue(); } },
                 { "number", n => { Number = n.GetStringValue(); } },
-                { "pin", n => { Pin = n.GetStringValue(); } },
+                { "registeredTo", n => { RegisteredTo = n.GetGuidValue(); } },
+                { "status", n => { Status = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -78,10 +93,13 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteGuidValue("characterId", CharacterId);
-            writer.WriteStringValue("displayName", DisplayName);
+            writer.WriteCollectionOfPrimitiveValues<string>("blockedNumbers", BlockedNumbers);
+            writer.WriteGuidValue("id", Id);
+            writer.WriteCollectionOfPrimitiveValues<string>("installedApps", InstalledApps);
+            writer.WriteBoolValue("isPoweredOn", IsPoweredOn);
             writer.WriteStringValue("number", Number);
-            writer.WriteStringValue("pin", Pin);
+            writer.WriteGuidValue("registeredTo", RegisteredTo);
+            writer.WriteStringValue("status", Status);
             writer.WriteAdditionalData(AdditionalData);
         }
     }
