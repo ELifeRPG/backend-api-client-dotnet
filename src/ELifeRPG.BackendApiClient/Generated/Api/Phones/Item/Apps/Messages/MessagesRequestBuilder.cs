@@ -3,6 +3,7 @@
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Blocks;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Send;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads;
+using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Updates;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
 using System.Collections.Generic;
@@ -31,6 +32,11 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages
         public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder Threads
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The updates property</summary>
+        public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Updates.UpdatesRequestBuilder Updates
+        {
+            get => new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Updates.UpdatesRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.MessagesRequestBuilder"/> and sets the default values.

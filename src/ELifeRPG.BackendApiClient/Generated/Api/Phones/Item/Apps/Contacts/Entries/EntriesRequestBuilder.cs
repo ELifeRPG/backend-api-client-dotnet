@@ -48,7 +48,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public EntriesRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/contacts/entries{?pin*}", pathParameters)
+        public EntriesRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/contacts/entries", pathParameters)
         {
         }
         /// <summary>
@@ -56,7 +56,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public EntriesRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/contacts/entries{?pin*}", rawUrl)
+        public EntriesRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/contacts/entries", rawUrl)
         {
         }
         /// <summary>
@@ -65,38 +65,62 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries
         /// <returns>A List&lt;global::ELifeRPG.BackendApiClient.Models.ContactDto&gt;</returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 403 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 404 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 409 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 410 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<global::ELifeRPG.BackendApiClient.Models.ContactDto>?> GetAsync(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries.EntriesRequestBuilder.EntriesRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<List<global::ELifeRPG.BackendApiClient.Models.ContactDto>?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<global::ELifeRPG.BackendApiClient.Models.ContactDto>> GetAsync(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries.EntriesRequestBuilder.EntriesRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<List<global::ELifeRPG.BackendApiClient.Models.ContactDto>> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::ELifeRPG.BackendApiClient.Models.ContactDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.ContactDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "403", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "404", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "409", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "410", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+            };
+            var collectionResult = await RequestAdapter.SendCollectionAsync<global::ELifeRPG.BackendApiClient.Models.ContactDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.ContactDto.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
             return collectionResult?.AsList();
         }
         /// <summary>
         /// Saves a number to a phone&apos;s address book.
         /// </summary>
-        /// <returns>A <see cref="Stream"/></returns>
+        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.SaveContactResponseDto"/></returns>
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 400 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 403 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 404 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 409 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 410 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<Stream?> PostAsync(global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::ELifeRPG.BackendApiClient.Models.SaveContactResponseDto?> PostAsync(global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<Stream> PostAsync(global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::ELifeRPG.BackendApiClient.Models.SaveContactResponseDto> PostAsync(global::ELifeRPG.BackendApiClient.Models.SaveContactRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendPrimitiveAsync<Stream>(requestInfo, default, cancellationToken).ConfigureAwait(false);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "400", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "403", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "404", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "409", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "410", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+            };
+            return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.SaveContactResponseDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.SaveContactResponseDto.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Lists a phone&apos;s saved contacts.
@@ -105,14 +129,14 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries.EntriesRequestBuilder.EntriesRequestBuilderGetQueryParameters>>? requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
         {
 #nullable restore
 #else
-        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries.EntriesRequestBuilder.EntriesRequestBuilderGetQueryParameters>> requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.GET, "{+baseurl}/api/phones/{phoneId}/apps/contacts/entries?characterId={characterId}{&pin*}", PathParameters);
+            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             return requestInfo;
@@ -135,6 +159,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation(Method.POST, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
+            requestInfo.Headers.TryAdd("Accept", "application/json");
             requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);
             return requestInfo;
         }
@@ -148,29 +173,11 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries
             return new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries.EntriesRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Lists a phone&apos;s saved contacts.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class EntriesRequestBuilderGetQueryParameters 
-        {
-            [QueryParameter("characterId")]
-            public Guid? CharacterId { get; set; }
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            [QueryParameter("pin")]
-            public string? Pin { get; set; }
-#nullable restore
-#else
-            [QueryParameter("pin")]
-            public string Pin { get; set; }
-#endif
-        }
-        /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.
         /// </summary>
         [Obsolete("This class is deprecated. Please use the generic RequestConfiguration class generated by the generator.")]
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class EntriesRequestBuilderGetRequestConfiguration : RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts.Entries.EntriesRequestBuilder.EntriesRequestBuilderGetQueryParameters>
+        public partial class EntriesRequestBuilderGetRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
         {
         }
         /// <summary>

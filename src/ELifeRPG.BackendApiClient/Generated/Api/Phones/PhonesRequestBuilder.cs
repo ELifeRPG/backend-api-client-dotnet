@@ -66,6 +66,8 @@ namespace ELifeRPG.BackendApiClient.Api.Phones
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 400 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 503 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto?> PostAsync(global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneRequestDto body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -77,7 +79,12 @@ namespace ELifeRPG.BackendApiClient.Api.Phones
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "400", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "503", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+            };
+            return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Provisions a phone with a fresh number and a PIN, registered to a character. Ships powered off, with every app installed.

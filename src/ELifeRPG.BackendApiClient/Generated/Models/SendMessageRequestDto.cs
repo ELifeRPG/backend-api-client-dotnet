@@ -22,16 +22,6 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string Body { get; set; }
 #endif
-        /// <summary>The characterId property</summary>
-        public Guid? CharacterId { get; set; }
-        /// <summary>The pin property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Pin { get; set; }
-#nullable restore
-#else
-        public string Pin { get; set; }
-#endif
         /// <summary>The to property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -66,8 +56,6 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "body", n => { Body = n.GetStringValue(); } },
-                { "characterId", n => { CharacterId = n.GetGuidValue(); } },
-                { "pin", n => { Pin = n.GetStringValue(); } },
                 { "to", n => { To = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
             };
         }
@@ -79,8 +67,6 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("body", Body);
-            writer.WriteGuidValue("characterId", CharacterId);
-            writer.WriteStringValue("pin", Pin);
             writer.WriteCollectionOfPrimitiveValues<string>("to", To);
             writer.WriteAdditionalData(AdditionalData);
         }

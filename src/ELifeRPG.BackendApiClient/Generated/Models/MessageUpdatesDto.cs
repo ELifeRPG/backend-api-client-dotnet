@@ -9,35 +9,37 @@ namespace ELifeRPG.BackendApiClient.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
-    public partial class RenameContactRequestDto : IAdditionalDataHolder, IParsable
+    public partial class MessageUpdatesDto : IAdditionalDataHolder, IParsable
     #pragma warning restore CS1591
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The displayName property</summary>
+        /// <summary>The polledAt property</summary>
+        public DateTimeOffset? PolledAt { get; set; }
+        /// <summary>The threads property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? DisplayName { get; set; }
+        public List<global::ELifeRPG.BackendApiClient.Models.MessageThreadUpdateDto>? Threads { get; set; }
 #nullable restore
 #else
-        public string DisplayName { get; set; }
+        public List<global::ELifeRPG.BackendApiClient.Models.MessageThreadUpdateDto> Threads { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.RenameContactRequestDto"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.MessageUpdatesDto"/> and sets the default values.
         /// </summary>
-        public RenameContactRequestDto()
+        public MessageUpdatesDto()
         {
             AdditionalData = new Dictionary<string, object>();
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.RenameContactRequestDto"/></returns>
+        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.MessageUpdatesDto"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ELifeRPG.BackendApiClient.Models.RenameContactRequestDto CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ELifeRPG.BackendApiClient.Models.MessageUpdatesDto CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::ELifeRPG.BackendApiClient.Models.RenameContactRequestDto();
+            return new global::ELifeRPG.BackendApiClient.Models.MessageUpdatesDto();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -47,7 +49,8 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "displayName", n => { DisplayName = n.GetStringValue(); } },
+                { "polledAt", n => { PolledAt = n.GetDateTimeOffsetValue(); } },
+                { "threads", n => { Threads = n.GetCollectionOfObjectValues<global::ELifeRPG.BackendApiClient.Models.MessageThreadUpdateDto>(global::ELifeRPG.BackendApiClient.Models.MessageThreadUpdateDto.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -57,7 +60,8 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("displayName", DisplayName);
+            writer.WriteDateTimeOffsetValue("polledAt", PolledAt);
+            writer.WriteCollectionOfObjectValues<global::ELifeRPG.BackendApiClient.Models.MessageThreadUpdateDto>("threads", Threads);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

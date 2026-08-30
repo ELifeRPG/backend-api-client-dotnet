@@ -48,7 +48,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public ThreadsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/messages/threads?characterId={characterId}{&pin*}", pathParameters)
+        public ThreadsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/messages/threads", pathParameters)
         {
         }
         /// <summary>
@@ -56,7 +56,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public ThreadsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/messages/threads?characterId={characterId}{&pin*}", rawUrl)
+        public ThreadsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/phones/{phoneId}/apps/messages/threads", rawUrl)
         {
         }
         /// <summary>
@@ -65,17 +65,28 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads
         /// <returns>A List&lt;global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto&gt;</returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 403 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 404 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 409 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 410 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto>?> GetAsync(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder.ThreadsRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<List<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto>?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto>> GetAsync(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder.ThreadsRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<List<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto>> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
+            {
+                { "403", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "404", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "409", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "410", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+            };
+            var collectionResult = await RequestAdapter.SendCollectionAsync<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
             return collectionResult?.AsList();
         }
         /// <summary>
@@ -85,11 +96,11 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder.ThreadsRequestBuilderGetQueryParameters>>? requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
         {
 #nullable restore
 #else
-        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder.ThreadsRequestBuilderGetQueryParameters>> requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
             var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
@@ -107,29 +118,11 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads
             return new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Lists a phone&apos;s conversations, newest first. Bodies are omitted; open a thread for those.
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class ThreadsRequestBuilderGetQueryParameters 
-        {
-            [QueryParameter("characterId")]
-            public Guid? CharacterId { get; set; }
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            [QueryParameter("pin")]
-            public string? Pin { get; set; }
-#nullable restore
-#else
-            [QueryParameter("pin")]
-            public string Pin { get; set; }
-#endif
-        }
-        /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.
         /// </summary>
         [Obsolete("This class is deprecated. Please use the generic RequestConfiguration class generated by the generator.")]
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class ThreadsRequestBuilderGetRequestConfiguration : RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.Threads.ThreadsRequestBuilder.ThreadsRequestBuilderGetQueryParameters>
+        public partial class ThreadsRequestBuilderGetRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
         {
         }
     }
