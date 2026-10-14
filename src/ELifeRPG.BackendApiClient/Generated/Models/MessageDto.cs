@@ -36,6 +36,14 @@ namespace ELifeRPG.BackendApiClient.Models
         public bool? IsOutbound { get; set; }
         /// <summary>The sentAt property</summary>
         public DateTimeOffset? SentAt { get; set; }
+        /// <summary>The sequence property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? Sequence { get; set; }
+#nullable restore
+#else
+        public UntypedNode Sequence { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.MessageDto"/> and sets the default values.
         /// </summary>
@@ -66,6 +74,7 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "id", n => { Id = n.GetGuidValue(); } },
                 { "isOutbound", n => { IsOutbound = n.GetBoolValue(); } },
                 { "sentAt", n => { SentAt = n.GetDateTimeOffsetValue(); } },
+                { "sequence", n => { Sequence = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
             };
         }
         /// <summary>
@@ -80,6 +89,7 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("id", Id);
             writer.WriteBoolValue("isOutbound", IsOutbound);
             writer.WriteDateTimeOffsetValue("sentAt", SentAt);
+            writer.WriteObjectValue<UntypedNode>("sequence", Sequence);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

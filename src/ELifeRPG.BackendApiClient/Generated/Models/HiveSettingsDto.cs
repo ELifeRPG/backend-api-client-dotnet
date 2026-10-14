@@ -30,6 +30,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public UntypedNode PhoneMaxGroupParticipants { get; set; }
 #endif
+        /// <summary>The phoneNotificationLimit property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? PhoneNotificationLimit { get; set; }
+#nullable restore
+#else
+        public UntypedNode PhoneNotificationLimit { get; set; }
+#endif
         /// <summary>The phoneThreadMessageLimit property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -83,6 +91,7 @@ namespace ELifeRPG.BackendApiClient.Models
             {
                 { "phoneContactLimit", n => { PhoneContactLimit = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "phoneMaxGroupParticipants", n => { PhoneMaxGroupParticipants = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "phoneNotificationLimit", n => { PhoneNotificationLimit = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "phoneThreadMessageLimit", n => { PhoneThreadMessageLimit = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "smsMaxBodyLength", n => { SmsMaxBodyLength = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "smsPerMinutePerPhone", n => { SmsPerMinutePerPhone = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
@@ -98,6 +107,7 @@ namespace ELifeRPG.BackendApiClient.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<UntypedNode>("phoneContactLimit", PhoneContactLimit);
             writer.WriteObjectValue<UntypedNode>("phoneMaxGroupParticipants", PhoneMaxGroupParticipants);
+            writer.WriteObjectValue<UntypedNode>("phoneNotificationLimit", PhoneNotificationLimit);
             writer.WriteObjectValue<UntypedNode>("phoneThreadMessageLimit", PhoneThreadMessageLimit);
             writer.WriteObjectValue<UntypedNode>("smsMaxBodyLength", SmsMaxBodyLength);
             writer.WriteObjectValue<UntypedNode>("smsPerMinutePerPhone", SmsPerMinutePerPhone);

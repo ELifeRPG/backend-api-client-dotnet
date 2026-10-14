@@ -14,6 +14,14 @@ namespace ELifeRPG.BackendApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
+        /// <summary>The highestSequence property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? HighestSequence { get; set; }
+#nullable restore
+#else
+        public UntypedNode HighestSequence { get; set; }
+#endif
         /// <summary>The id property</summary>
         public Guid? Id { get; set; }
         /// <summary>The lastMessageAt property</summary>
@@ -33,6 +41,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #nullable restore
 #else
         public List<string> Participants { get; set; }
+#endif
+        /// <summary>The retrievedThrough property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? RetrievedThrough { get; set; }
+#nullable restore
+#else
+        public UntypedNode RetrievedThrough { get; set; }
 #endif
         /// <summary>The unreadCount property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -67,10 +83,12 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "highestSequence", n => { HighestSequence = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "id", n => { Id = n.GetGuidValue(); } },
                 { "lastMessageAt", n => { LastMessageAt = n.GetDateTimeOffsetValue(); } },
                 { "messages", n => { Messages = n.GetCollectionOfObjectValues<global::ELifeRPG.BackendApiClient.Models.MessageDto>(global::ELifeRPG.BackendApiClient.Models.MessageDto.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "participants", n => { Participants = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
+                { "retrievedThrough", n => { RetrievedThrough = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "unreadCount", n => { UnreadCount = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
             };
         }
@@ -81,10 +99,12 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteObjectValue<UntypedNode>("highestSequence", HighestSequence);
             writer.WriteGuidValue("id", Id);
             writer.WriteDateTimeOffsetValue("lastMessageAt", LastMessageAt);
             writer.WriteCollectionOfObjectValues<global::ELifeRPG.BackendApiClient.Models.MessageDto>("messages", Messages);
             writer.WriteCollectionOfPrimitiveValues<string>("participants", Participants);
+            writer.WriteObjectValue<UntypedNode>("retrievedThrough", RetrievedThrough);
             writer.WriteObjectValue<UntypedNode>("unreadCount", UnreadCount);
             writer.WriteAdditionalData(AdditionalData);
         }
