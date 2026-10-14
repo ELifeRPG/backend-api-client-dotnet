@@ -60,7 +60,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones
         {
         }
         /// <summary>
-        /// Provisions a phone with a fresh number and a PIN, registered to a character. Ships powered off, with every app installed.
+        /// Provisions a phone with a fresh number and a PIN, registered to a character. Ships powered off, with its system apps installed.
         /// </summary>
         /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto"/></returns>
         /// <param name="body">The request body</param>
@@ -87,7 +87,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones
             return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.ProvisionPhoneResponseDto.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Provisions a phone with a fresh number and a PIN, registered to a character. Ships powered off, with every app installed.
+        /// Provisions a phone with a fresh number and a PIN, registered to a character. Ships powered off, with its system apps installed.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

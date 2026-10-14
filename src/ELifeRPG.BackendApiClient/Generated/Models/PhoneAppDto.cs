@@ -22,6 +22,8 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string DisplayName { get; set; }
 #endif
+        /// <summary>The isSystemApp property</summary>
+        public bool? IsSystemApp { get; set; }
         /// <summary>The key property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -56,6 +58,7 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "displayName", n => { DisplayName = n.GetStringValue(); } },
+                { "isSystemApp", n => { IsSystemApp = n.GetBoolValue(); } },
                 { "key", n => { Key = n.GetStringValue(); } },
             };
         }
@@ -67,6 +70,7 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("displayName", DisplayName);
+            writer.WriteBoolValue("isSystemApp", IsSystemApp);
             writer.WriteStringValue("key", Key);
             writer.WriteAdditionalData(AdditionalData);
         }

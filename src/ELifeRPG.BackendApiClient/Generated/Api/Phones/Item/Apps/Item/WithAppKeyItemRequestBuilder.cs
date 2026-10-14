@@ -34,7 +34,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item
         {
         }
         /// <summary>
-        /// Uninstalls an app. Idempotent; nothing is lost, and messages queue rather than vanish.
+        /// Uninstalls a store app. Idempotent, and nothing stored is lost. A system app is refused: it is the phone&apos;s own software.
         /// </summary>
         /// <returns>A <see cref="Stream"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -42,6 +42,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item
         /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 400 status code</exception>
         /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 403 status code</exception>
         /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 404 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 409 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<Stream?> DeleteAsync(Action<RequestConfiguration<global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item.WithAppKeyItemRequestBuilder.WithAppKeyItemRequestBuilderDeleteQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -57,11 +58,12 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item
                 { "400", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
                 { "403", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
                 { "404", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "409", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendPrimitiveAsync<Stream>(requestInfo, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Installs an app. Every phone can run every app; installing Messages delivers anything queued while it was gone. Idempotent.
+        /// Installs an app. Every phone can run every app, system apps included — installing one is how a phone provisioned before that app existed receives it. Idempotent.
         /// </summary>
         /// <returns>A <see cref="Stream"/></returns>
         /// <param name="body">The request body</param>
@@ -92,7 +94,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item
             return await RequestAdapter.SendPrimitiveAsync<Stream>(requestInfo, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Uninstalls an app. Idempotent; nothing is lost, and messages queue rather than vanish.
+        /// Uninstalls a store app. Idempotent, and nothing stored is lost. A system app is refused: it is the phone&apos;s own software.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -111,7 +113,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item
             return requestInfo;
         }
         /// <summary>
-        /// Installs an app. Every phone can run every app; installing Messages delivers anything queued while it was gone. Idempotent.
+        /// Installs an app. Every phone can run every app, system apps included — installing one is how a phone provisioned before that app existed receives it. Idempotent.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>
@@ -142,7 +144,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item
             return new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item.WithAppKeyItemRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Uninstalls an app. Idempotent; nothing is lost, and messages queue rather than vanish.
+        /// Uninstalls a store app. Idempotent, and nothing stored is lost. A system app is refused: it is the phone&apos;s own software.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class WithAppKeyItemRequestBuilderDeleteQueryParameters 

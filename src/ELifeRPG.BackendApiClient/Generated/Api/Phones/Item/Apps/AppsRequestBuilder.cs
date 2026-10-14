@@ -59,7 +59,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps
         {
         }
         /// <summary>
-        /// Lists the apps installed on a phone.
+        /// Lists the apps installed on a phone, and which of them are system apps that can not be removed.
         /// </summary>
         /// <returns>A List&lt;global::ELifeRPG.BackendApiClient.Models.PhoneAppDto&gt;</returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -83,7 +83,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps
             return collectionResult?.AsList();
         }
         /// <summary>
-        /// Lists the apps installed on a phone.
+        /// Lists the apps installed on a phone, and which of them are system apps that can not be removed.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
