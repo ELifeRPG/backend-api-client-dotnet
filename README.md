@@ -40,10 +40,12 @@ runtime installed side by side).
 `repository_dispatch` from `eliferpg-core` (sent whenever `openapi/eliferpg-api-v1.json` changes
 on its `main` branch) or manually via `workflow_dispatch`.
 
-**The `eliferpg-core` side of that trigger isn't wired up yet** — see
-[`docs/eliferpg-core-dispatch-workflow.md`](docs/eliferpg-core-dispatch-workflow.md) for the
-pending workflow to add there and why it's blocked. Until then, use `workflow_dispatch` (with an
-optional `core_ref` input) to run a regeneration on demand.
+**Both halves are live.** A push to `eliferpg-core`'s `main` that touches the spec dispatches here
+within seconds, carrying the exact commit SHA it came from — see
+[`docs/eliferpg-core-dispatch-workflow.md`](docs/eliferpg-core-dispatch-workflow.md) for the GitHub
+App it authenticates as, and why an App rather than a PAT. `workflow_dispatch` (with an optional
+`core_ref` input) stays for regenerating on demand: against an older ref, or to re-run a release
+that was skipped.
 
 Once triggered, the workflow:
 
@@ -60,6 +62,13 @@ Once triggered, the workflow:
    generated from is always recoverable from git history — and tags `vX.Y.Z`.
 4. Packs and publishes `ELifeRPG.BackendApiClient` to GitHub Packages, and creates a GitHub
    Release with an `oasdiff`-derived changelog.
+
+Note what step 2 can and cannot see: `oasdiff` compares **specs**, so a change that breaks callers
+without changing the document's shape is classified additive and ships as a *minor*. `eliferpg-core`
+[#147](https://github.com/ELifeRPG/backend/pull/147) is the worked example — it released as `6.1.0`
+while turning one `204` into a `409`, renumbering a persisted enum, and making endpoints reject the
+numeric form of an enum. Read a minor bump as "the spec grew", not as "nothing can break"; the
+release's changelog is the spec diff, not a behaviour diff.
 
 ## Consuming the package
 
