@@ -1,14 +1,20 @@
-# Pending: `eliferpg-core` dispatch workflow
+# The `eliferpg-core` dispatch trigger
 
-`.github/workflows/release.yml` in this repo is triggered by a `repository_dispatch` event sent
-from `eliferpg-core` whenever its OpenAPI spec changes on `main`. The workflow that sends it is
-open as [ELifeRPG/backend#139](https://github.com/ELifeRPG/backend/pull/139), but it can't be
-merged as functional until a GitHub App is created and installed by hand (see below) — GitHub
-doesn't expose App registration via `gh`/API without an interactive browser step, so this is a
-manual follow-up, not something that can be automated here.
+`.github/workflows/release.yml` in this repo is triggered by a `repository_dispatch` event sent from
+`eliferpg-core` whenever its OpenAPI spec changes on `main`. The sending workflow is
+[`.github/workflows/dispatch-client-generation.yml`](https://github.com/ELifeRPG/backend/blob/main/.github/workflows/dispatch-client-generation.yml)
+over there, merged as [ELifeRPG/backend#139](https://github.com/ELifeRPG/backend/pull/139), and it
+has been live since 2026-08-25.
 
-In the meantime, `release.yml` can still be run manually via `workflow_dispatch` (see
-`README.md`), or the `core_ref` input can be pointed at any `eliferpg-core` ref on demand.
+It authenticates as a GitHub App, which had to be registered and installed by hand — GitHub does not
+expose App registration through `gh` or the API without an interactive browser step. That setup is
+done; what follows is the reasoning, and the steps as a reference for rotating the key or recreating
+the App.
+
+`release.yml` can also be run manually via `workflow_dispatch` (see `README.md`), pointing
+`core_ref` at any `eliferpg-core` ref. That is for on-demand regeneration, not a fallback — the
+automatic path needs no help. A manual run against a ref whose spec already matches the committed
+submodule pin does nothing and releases nothing, by design.
 
 ## Why a GitHub App instead of a personal access token
 
@@ -22,7 +28,7 @@ needs (`Contents: write`), and exchanged for a short-lived installation token at
 via [`actions/create-github-app-token`](https://github.com/actions/create-github-app-token) rather
 than a long-lived stored credential.
 
-## Steps to apply
+## Steps, as applied
 
 1. Create a GitHub App owned by the `ELifeRPG` org: org **Settings** → **Developer settings** →
    **GitHub Apps** → **New GitHub App**.
@@ -39,39 +45,7 @@ than a long-lived stored credential.
      page).
    - Add a repo **secret** named `DISPATCH_APP_PRIVATE_KEY` with the full contents of the
      downloaded `.pem` file.
-5. Merge [#139](https://github.com/ELifeRPG/backend/pull/139). From then on, every push to `main`
-   that changes `openapi/eliferpg-api-v1.json` will trigger `backend-api-client-dotnet`'s release
-   workflow automatically with the exact commit SHA the spec came from.
-
-For reference, the workflow being merged (`eliferpg-core`'s
-`.github/workflows/dispatch-client-generation.yml`):
-
-```yaml
-name: Dispatch client generation
-
-on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'openapi/eliferpg-api-v1.json'
-
-jobs:
-  dispatch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          app-id: ${{ vars.DISPATCH_APP_ID }}
-          private-key: ${{ secrets.DISPATCH_APP_PRIVATE_KEY }}
-          repositories: backend-api-client-dotnet
-
-      - name: Notify backend-api-client-dotnet
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          gh api repos/ELifeRPG/backend-api-client-dotnet/dispatches \
-            -f event_type=core-spec-updated \
-            -f "client_payload[sha]=${{ github.sha }}"
-```
+5. Merge the dispatch workflow in `eliferpg-core` (done in
+   [#139](https://github.com/ELifeRPG/backend/pull/139)). Every push to `main` that changes
+   `openapi/eliferpg-api-v1.json` then triggers this repo's release workflow with the exact commit
+   SHA the spec came from.
