@@ -42,6 +42,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string Number { get; set; }
 #endif
+        /// <summary>The preferences property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public global::ELifeRPG.BackendApiClient.Models.PhonePreferencesDto? Preferences { get; set; }
+#nullable restore
+#else
+        public global::ELifeRPG.BackendApiClient.Models.PhonePreferencesDto Preferences { get; set; }
+#endif
         /// <summary>The registeredTo property</summary>
         public Guid? RegisteredTo { get; set; }
         /// <summary>The status property</summary>
@@ -82,6 +90,7 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "installedApps", n => { InstalledApps = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "isPoweredOn", n => { IsPoweredOn = n.GetBoolValue(); } },
                 { "number", n => { Number = n.GetStringValue(); } },
+                { "preferences", n => { Preferences = n.GetObjectValue<global::ELifeRPG.BackendApiClient.Models.PhonePreferencesDto>(global::ELifeRPG.BackendApiClient.Models.PhonePreferencesDto.CreateFromDiscriminatorValue); } },
                 { "registeredTo", n => { RegisteredTo = n.GetGuidValue(); } },
                 { "status", n => { Status = n.GetStringValue(); } },
             };
@@ -98,6 +107,7 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteCollectionOfPrimitiveValues<string>("installedApps", InstalledApps);
             writer.WriteBoolValue("isPoweredOn", IsPoweredOn);
             writer.WriteStringValue("number", Number);
+            writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.PhonePreferencesDto>("preferences", Preferences);
             writer.WriteGuidValue("registeredTo", RegisteredTo);
             writer.WriteStringValue("status", Status);
             writer.WriteAdditionalData(AdditionalData);

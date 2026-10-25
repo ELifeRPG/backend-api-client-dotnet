@@ -5,6 +5,7 @@ using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Notifications;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Pin;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Power;
+using ELifeRPG.BackendApiClient.Api.Phones.Item.Preferences;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Restore;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Suspend;
 using ELifeRPG.BackendApiClient.Models;
@@ -49,6 +50,11 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Power.PowerRequestBuilder(PathParameters, RequestAdapter);
         }
+        /// <summary>The preferences property</summary>
+        public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Preferences.PreferencesRequestBuilder Preferences
+        {
+            get => new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Preferences.PreferencesRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The restore property</summary>
         public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Restore.RestoreRequestBuilder Restore
         {
@@ -76,7 +82,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item
         {
         }
         /// <summary>
-        /// Gets a phone, including its number, status and blocklist. Never its PIN.
+        /// Gets a phone, including its number, status, blocklist and preferences. Never its PIN.
         /// </summary>
         /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.PhoneDto"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -99,7 +105,7 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item
             return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.PhoneDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.PhoneDto.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Gets a phone, including its number, status and blocklist. Never its PIN.
+        /// Gets a phone, including its number, status, blocklist and preferences. Never its PIN.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
