@@ -3,6 +3,7 @@
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Contacts;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Item;
 using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages;
+using ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Phone;
 using ELifeRPG.BackendApiClient.Models;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions.Serialization;
@@ -29,6 +30,11 @@ namespace ELifeRPG.BackendApiClient.Api.Phones.Item.Apps
         public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.MessagesRequestBuilder Messages
         {
             get => new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Messages.MessagesRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The phone property</summary>
+        public global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Phone.PhoneRequestBuilder Phone
+        {
+            get => new global::ELifeRPG.BackendApiClient.Api.Phones.Item.Apps.Phone.PhoneRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>Gets an item from the ELifeRPG.BackendApiClient.api.phones.item.apps.item collection</summary>
         /// <param name="position">Unique identifier of the item</param>
