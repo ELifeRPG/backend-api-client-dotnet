@@ -26,6 +26,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string LinkPin { get; set; }
 #endif
+        /// <summary>The linkUrl property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? LinkUrl { get; set; }
+#nullable restore
+#else
+        public string LinkUrl { get; set; }
+#endif
         /// <summary>The status property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -34,6 +42,8 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string Status { get; set; }
 #endif
+        /// <summary>The webAccountLinked property</summary>
+        public bool? WebAccountLinked { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.SessionDto"/> and sets the default values.
         /// </summary>
@@ -62,7 +72,9 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "accountId", n => { AccountId = n.GetGuidValue(); } },
                 { "keycloakUserId", n => { KeycloakUserId = n.GetGuidValue(); } },
                 { "linkPin", n => { LinkPin = n.GetStringValue(); } },
+                { "linkUrl", n => { LinkUrl = n.GetStringValue(); } },
                 { "status", n => { Status = n.GetStringValue(); } },
+                { "webAccountLinked", n => { WebAccountLinked = n.GetBoolValue(); } },
             };
         }
         /// <summary>
@@ -75,7 +87,9 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("accountId", AccountId);
             writer.WriteGuidValue("keycloakUserId", KeycloakUserId);
             writer.WriteStringValue("linkPin", LinkPin);
+            writer.WriteStringValue("linkUrl", LinkUrl);
             writer.WriteStringValue("status", Status);
+            writer.WriteBoolValue("webAccountLinked", WebAccountLinked);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

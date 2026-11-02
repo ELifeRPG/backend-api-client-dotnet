@@ -14,14 +14,6 @@ namespace ELifeRPG.BackendApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The bohemiaId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? BohemiaId { get; set; }
-#nullable restore
-#else
-        public string BohemiaId { get; set; }
-#endif
         /// <summary>The discordUsername property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -29,6 +21,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #nullable restore
 #else
         public string DiscordUsername { get; set; }
+#endif
+        /// <summary>The gameAccounts property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<global::ELifeRPG.BackendApiClient.Models.GameAccountDto>? GameAccounts { get; set; }
+#nullable restore
+#else
+        public List<global::ELifeRPG.BackendApiClient.Models.GameAccountDto> GameAccounts { get; set; }
 #endif
         /// <summary>The id property</summary>
         public Guid? Id { get; set; }
@@ -65,8 +65,8 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "bohemiaId", n => { BohemiaId = n.GetStringValue(); } },
                 { "discordUsername", n => { DiscordUsername = n.GetStringValue(); } },
+                { "gameAccounts", n => { GameAccounts = n.GetCollectionOfObjectValues<global::ELifeRPG.BackendApiClient.Models.GameAccountDto>(global::ELifeRPG.BackendApiClient.Models.GameAccountDto.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "id", n => { Id = n.GetGuidValue(); } },
                 { "status", n => { Status = n.GetStringValue(); } },
             };
@@ -78,8 +78,8 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("bohemiaId", BohemiaId);
             writer.WriteStringValue("discordUsername", DiscordUsername);
+            writer.WriteCollectionOfObjectValues<global::ELifeRPG.BackendApiClient.Models.GameAccountDto>("gameAccounts", GameAccounts);
             writer.WriteGuidValue("id", Id);
             writer.WriteStringValue("status", Status);
             writer.WriteAdditionalData(AdditionalData);

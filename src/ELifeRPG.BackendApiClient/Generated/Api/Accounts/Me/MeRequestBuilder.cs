@@ -34,12 +34,13 @@ namespace ELifeRPG.BackendApiClient.Api.Accounts.Me
         {
         }
         /// <summary>
-        /// Creates (or returns) the account behind the calling Keycloak user. This is the portal-first entry point: the account exists from web signup onward, with no Bohemia ID until the player links their game identity. Idempotent.
+        /// Resolves the account behind the calling Keycloak user, creating it if needed. Both origins converge here: a portal-first signup gets a fresh account with no game identities, while a join-first player — whose account already exists because they joined a gameserver — gets this web identity attached to it, using the token&apos;s game-identity claim. Idempotent. Returns 409 when the two cannot be reconciled automatically, which needs staff.
         /// </summary>
         /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.CurrentAccountDto"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 400 status code</exception>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 409 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<global::ELifeRPG.BackendApiClient.Models.CurrentAccountDto?> PostAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -53,11 +54,12 @@ namespace ELifeRPG.BackendApiClient.Api.Accounts.Me
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
                 { "400", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "409", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.CurrentAccountDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.CurrentAccountDto.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Creates (or returns) the account behind the calling Keycloak user. This is the portal-first entry point: the account exists from web signup onward, with no Bohemia ID until the player links their game identity. Idempotent.
+        /// Resolves the account behind the calling Keycloak user, creating it if needed. Both origins converge here: a portal-first signup gets a fresh account with no game identities, while a join-first player — whose account already exists because they joined a gameserver — gets this web identity attached to it, using the token&apos;s game-identity claim. Idempotent. Returns 409 when the two cannot be reconciled automatically, which needs staff.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>

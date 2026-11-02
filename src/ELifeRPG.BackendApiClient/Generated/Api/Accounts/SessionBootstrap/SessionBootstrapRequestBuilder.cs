@@ -34,7 +34,7 @@ namespace ELifeRPG.BackendApiClient.Api.Accounts.SessionBootstrap
         {
         }
         /// <summary>
-        /// Bootstraps (or looks up) a session for a player&apos;s Bohemia ID, provisioning an account if needed. Always returns 200 — a blocked or not-whitelisted account is reported via the Status field, not an error.
+        /// Bootstraps (or looks up) a session for a player&apos;s Game Identity ID, creating the account if this is an identity nobody has seen — so a player can join and play without a web account. Always returns 200: a blocked or not-whitelisted account is reported via Status, and &quot;unlinked&quot; now means only that identity could not be resolved right now and nothing was created, so retry. Use WebAccountLinked, not Status, to decide whether to show the link prompt.
         /// </summary>
         /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.SessionDto"/></returns>
         /// <param name="body">The request body</param>
@@ -54,7 +54,7 @@ namespace ELifeRPG.BackendApiClient.Api.Accounts.SessionBootstrap
             return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.SessionDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.SessionDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Bootstraps (or looks up) a session for a player&apos;s Bohemia ID, provisioning an account if needed. Always returns 200 — a blocked or not-whitelisted account is reported via the Status field, not an error.
+        /// Bootstraps (or looks up) a session for a player&apos;s Game Identity ID, creating the account if this is an identity nobody has seen — so a player can join and play without a web account. Always returns 200: a blocked or not-whitelisted account is reported via Status, and &quot;unlinked&quot; now means only that identity could not be resolved right now and nothing was created, so retry. Use WebAccountLinked, not Status, to decide whether to show the link prompt.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

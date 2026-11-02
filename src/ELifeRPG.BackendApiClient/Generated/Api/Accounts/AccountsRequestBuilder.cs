@@ -78,7 +78,7 @@ namespace ELifeRPG.BackendApiClient.Api.Accounts
         {
         }
         /// <summary>
-        /// Lists accounts, optionally filtered by a Bohemia ID substring match, for the admin accounts view.
+        /// Lists accounts, optionally filtered by a Game Identity ID substring match, for the admin accounts view. Each account carries every game identity linked to it — none for a fresh portal signup, several for a player who plays on more than one platform.
         /// </summary>
         /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.AccountsResponseDto"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -96,7 +96,7 @@ namespace ELifeRPG.BackendApiClient.Api.Accounts
             return await RequestAdapter.SendAsync<global::ELifeRPG.BackendApiClient.Models.AccountsResponseDto>(requestInfo, global::ELifeRPG.BackendApiClient.Models.AccountsResponseDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Lists accounts, optionally filtered by a Bohemia ID substring match, for the admin accounts view.
+        /// Lists accounts, optionally filtered by a Game Identity ID substring match, for the admin accounts view. Each account carries every game identity linked to it — none for a fresh portal signup, several for a player who plays on more than one platform.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -124,7 +124,7 @@ namespace ELifeRPG.BackendApiClient.Api.Accounts
             return new global::ELifeRPG.BackendApiClient.Api.Accounts.AccountsRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Lists accounts, optionally filtered by a Bohemia ID substring match, for the admin accounts view.
+        /// Lists accounts, optionally filtered by a Game Identity ID substring match, for the admin accounts view. Each account carries every game identity linked to it — none for a fresh portal signup, several for a player who plays on more than one platform.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class AccountsRequestBuilderGetQueryParameters 
