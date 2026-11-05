@@ -16,6 +16,14 @@ namespace ELifeRPG.BackendApiClient.Models
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The id property</summary>
         public Guid? Id { get; set; }
+        /// <summary>The lastMessage property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage? LastMessage { get; set; }
+#nullable restore
+#else
+        public global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage LastMessage { get; set; }
+#endif
         /// <summary>The lastMessageAt property</summary>
         public DateTimeOffset? LastMessageAt { get; set; }
         /// <summary>The participants property</summary>
@@ -60,6 +68,7 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "id", n => { Id = n.GetGuidValue(); } },
+                { "lastMessage", n => { LastMessage = n.GetObjectValue<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage>(global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage.CreateFromDiscriminatorValue); } },
                 { "lastMessageAt", n => { LastMessageAt = n.GetDateTimeOffsetValue(); } },
                 { "participants", n => { Participants = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "unreadCount", n => { UnreadCount = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
@@ -73,10 +82,82 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("id", Id);
+            writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage>("lastMessage", LastMessage);
             writer.WriteDateTimeOffsetValue("lastMessageAt", LastMessageAt);
             writer.WriteCollectionOfPrimitiveValues<string>("participants", Participants);
             writer.WriteObjectValue<UntypedNode>("unreadCount", UnreadCount);
             writer.WriteAdditionalData(AdditionalData);
+        }
+        /// <summary>
+        /// Composed type wrapper for classes <see cref="global::ELifeRPG.BackendApiClient.Models.MessageDto"/>, <see cref="global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto_lastMessageMember1"/>
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
+        public partial class MessageThreadSummaryDto_lastMessage : IComposedTypeWrapper, IParsable
+        {
+            /// <summary>Composed type representation for type <see cref="global::ELifeRPG.BackendApiClient.Models.MessageDto"/></summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public global::ELifeRPG.BackendApiClient.Models.MessageDto? MessageDto { get; set; }
+#nullable restore
+#else
+            public global::ELifeRPG.BackendApiClient.Models.MessageDto MessageDto { get; set; }
+#endif
+            /// <summary>Composed type representation for type <see cref="global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto_lastMessageMember1"/></summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto_lastMessageMember1? MessageThreadSummaryDtoLastMessageMember1 { get; set; }
+#nullable restore
+#else
+            public global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto_lastMessageMember1 MessageThreadSummaryDtoLastMessageMember1 { get; set; }
+#endif
+            /// <summary>
+            /// Creates a new instance of the appropriate class based on discriminator value
+            /// </summary>
+            /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage"/></returns>
+            /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
+            public static global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage CreateFromDiscriminatorValue(IParseNode parseNode)
+            {
+                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
+                var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
+                var result = new global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto.MessageThreadSummaryDto_lastMessage();
+                if("MessageDto".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.MessageDto = new global::ELifeRPG.BackendApiClient.Models.MessageDto();
+                }
+                return result;
+            }
+            /// <summary>
+            /// The deserialization information for the current model
+            /// </summary>
+            /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
+            public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
+            {
+                if(MessageDto != null)
+                {
+                    return MessageDto.GetFieldDeserializers();
+                }
+                else if(MessageThreadSummaryDtoLastMessageMember1 != null)
+                {
+                    return MessageThreadSummaryDtoLastMessageMember1.GetFieldDeserializers();
+                }
+                return new Dictionary<string, Action<IParseNode>>();
+            }
+            /// <summary>
+            /// Serializes information the current object
+            /// </summary>
+            /// <param name="writer">Serialization writer to use to serialize this model</param>
+            public virtual void Serialize(ISerializationWriter writer)
+            {
+                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+                if(MessageDto != null)
+                {
+                    writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.MessageDto>(null, MessageDto);
+                }
+                else if(MessageThreadSummaryDtoLastMessageMember1 != null)
+                {
+                    writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.MessageThreadSummaryDto_lastMessageMember1>(null, MessageThreadSummaryDtoLastMessageMember1);
+                }
+            }
         }
     }
 }
