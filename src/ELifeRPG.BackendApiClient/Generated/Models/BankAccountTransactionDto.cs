@@ -26,6 +26,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #endif
         /// <summary>The counterpartyBankAccountId property</summary>
         public Guid? CounterpartyBankAccountId { get; set; }
+        /// <summary>The counterpartyNumber property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? CounterpartyNumber { get; set; }
+#nullable restore
+#else
+        public string CounterpartyNumber { get; set; }
+#endif
         /// <summary>The fee property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -72,6 +80,7 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "actingCharacterId", n => { ActingCharacterId = n.GetGuidValue(); } },
                 { "amount", n => { Amount = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "counterpartyBankAccountId", n => { CounterpartyBankAccountId = n.GetGuidValue(); } },
+                { "counterpartyNumber", n => { CounterpartyNumber = n.GetStringValue(); } },
                 { "fee", n => { Fee = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "kind", n => { Kind = n.GetStringValue(); } },
                 { "occurredAt", n => { OccurredAt = n.GetDateTimeOffsetValue(); } },
@@ -87,6 +96,7 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("actingCharacterId", ActingCharacterId);
             writer.WriteObjectValue<UntypedNode>("amount", Amount);
             writer.WriteGuidValue("counterpartyBankAccountId", CounterpartyBankAccountId);
+            writer.WriteStringValue("counterpartyNumber", CounterpartyNumber);
             writer.WriteObjectValue<UntypedNode>("fee", Fee);
             writer.WriteStringValue("kind", Kind);
             writer.WriteDateTimeOffsetValue("occurredAt", OccurredAt);
