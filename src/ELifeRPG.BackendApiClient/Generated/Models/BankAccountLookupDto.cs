@@ -9,51 +9,47 @@ namespace ELifeRPG.BackendApiClient.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
-    public partial class OpenBankRequestDto : IAdditionalDataHolder, IParsable
+    public partial class BankAccountLookupDto : IAdditionalDataHolder, IParsable
     #pragma warning restore CS1591
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The name property</summary>
+        /// <summary>The bankAccountId property</summary>
+        public Guid? BankAccountId { get; set; }
+        /// <summary>The bankId property</summary>
+        public Guid? BankId { get; set; }
+        /// <summary>The number property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Name { get; set; }
+        public string? Number { get; set; }
 #nullable restore
 #else
-        public string Name { get; set; }
+        public string Number { get; set; }
 #endif
-        /// <summary>The transactionFeeBase property</summary>
+        /// <summary>The type property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public UntypedNode? TransactionFeeBase { get; set; }
+        public string? Type { get; set; }
 #nullable restore
 #else
-        public UntypedNode TransactionFeeBase { get; set; }
-#endif
-        /// <summary>The transactionFeeMultiplier property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public UntypedNode? TransactionFeeMultiplier { get; set; }
-#nullable restore
-#else
-        public UntypedNode TransactionFeeMultiplier { get; set; }
+        public string Type { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.OpenBankRequestDto"/> and sets the default values.
+        /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.BankAccountLookupDto"/> and sets the default values.
         /// </summary>
-        public OpenBankRequestDto()
+        public BankAccountLookupDto()
         {
             AdditionalData = new Dictionary<string, object>();
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.OpenBankRequestDto"/></returns>
+        /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.BankAccountLookupDto"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ELifeRPG.BackendApiClient.Models.OpenBankRequestDto CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::ELifeRPG.BackendApiClient.Models.BankAccountLookupDto CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::ELifeRPG.BackendApiClient.Models.OpenBankRequestDto();
+            return new global::ELifeRPG.BackendApiClient.Models.BankAccountLookupDto();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -63,9 +59,10 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "name", n => { Name = n.GetStringValue(); } },
-                { "transactionFeeBase", n => { TransactionFeeBase = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
-                { "transactionFeeMultiplier", n => { TransactionFeeMultiplier = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "bankAccountId", n => { BankAccountId = n.GetGuidValue(); } },
+                { "bankId", n => { BankId = n.GetGuidValue(); } },
+                { "number", n => { Number = n.GetStringValue(); } },
+                { "type", n => { Type = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -75,9 +72,10 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("name", Name);
-            writer.WriteObjectValue<UntypedNode>("transactionFeeBase", TransactionFeeBase);
-            writer.WriteObjectValue<UntypedNode>("transactionFeeMultiplier", TransactionFeeMultiplier);
+            writer.WriteGuidValue("bankAccountId", BankAccountId);
+            writer.WriteGuidValue("bankId", BankId);
+            writer.WriteStringValue("number", Number);
+            writer.WriteStringValue("type", Type);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

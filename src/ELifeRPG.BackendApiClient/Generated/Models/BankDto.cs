@@ -16,6 +16,14 @@ namespace ELifeRPG.BackendApiClient.Models
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The bankId property</summary>
         public Guid? BankId { get; set; }
+        /// <summary>The code property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Code { get; set; }
+#nullable restore
+#else
+        public string Code { get; set; }
+#endif
         /// <summary>The name property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -66,6 +74,7 @@ namespace ELifeRPG.BackendApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "bankId", n => { BankId = n.GetGuidValue(); } },
+                { "code", n => { Code = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "transactionFeeBase", n => { TransactionFeeBase = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "transactionFeeMultiplier", n => { TransactionFeeMultiplier = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
@@ -79,6 +88,7 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("bankId", BankId);
+            writer.WriteStringValue("code", Code);
             writer.WriteStringValue("name", Name);
             writer.WriteObjectValue<UntypedNode>("transactionFeeBase", TransactionFeeBase);
             writer.WriteObjectValue<UntypedNode>("transactionFeeMultiplier", TransactionFeeMultiplier);
