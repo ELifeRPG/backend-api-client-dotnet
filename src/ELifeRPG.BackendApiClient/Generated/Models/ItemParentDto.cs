@@ -37,10 +37,10 @@ namespace ELifeRPG.BackendApiClient.Models
         /// <summary>The transform property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform? Transform { get; set; }
+        public global::ELifeRPG.BackendApiClient.Models.WorldTransformDto? Transform { get; set; }
 #nullable restore
 #else
-        public global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform Transform { get; set; }
+        public global::ELifeRPG.BackendApiClient.Models.WorldTransformDto Transform { get; set; }
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.ItemParentDto"/> and sets the default values.
@@ -71,7 +71,7 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "containerInstanceId", n => { ContainerInstanceId = n.GetGuidValue(); } },
                 { "kind", n => { Kind = n.GetStringValue(); } },
                 { "slot", n => { Slot = n.GetStringValue(); } },
-                { "transform", n => { Transform = n.GetObjectValue<global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform>(global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform.CreateFromDiscriminatorValue); } },
+                { "transform", n => { Transform = n.GetObjectValue<global::ELifeRPG.BackendApiClient.Models.WorldTransformDto>(global::ELifeRPG.BackendApiClient.Models.WorldTransformDto.CreateFromDiscriminatorValue); } },
             };
         }
         /// <summary>
@@ -85,79 +85,8 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("containerInstanceId", ContainerInstanceId);
             writer.WriteStringValue("kind", Kind);
             writer.WriteStringValue("slot", Slot);
-            writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform>("transform", Transform);
+            writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.WorldTransformDto>("transform", Transform);
             writer.WriteAdditionalData(AdditionalData);
-        }
-        /// <summary>
-        /// Composed type wrapper for classes <see cref="global::ELifeRPG.BackendApiClient.Models.ItemParentDto_transformMember1"/>, <see cref="global::ELifeRPG.BackendApiClient.Models.WorldTransformDto"/>
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class ItemParentDto_transform : IComposedTypeWrapper, IParsable
-        {
-            /// <summary>Composed type representation for type <see cref="global::ELifeRPG.BackendApiClient.Models.ItemParentDto_transformMember1"/></summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public global::ELifeRPG.BackendApiClient.Models.ItemParentDto_transformMember1? ItemParentDtoTransformMember1 { get; set; }
-#nullable restore
-#else
-            public global::ELifeRPG.BackendApiClient.Models.ItemParentDto_transformMember1 ItemParentDtoTransformMember1 { get; set; }
-#endif
-            /// <summary>Composed type representation for type <see cref="global::ELifeRPG.BackendApiClient.Models.WorldTransformDto"/></summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public global::ELifeRPG.BackendApiClient.Models.WorldTransformDto? WorldTransformDto { get; set; }
-#nullable restore
-#else
-            public global::ELifeRPG.BackendApiClient.Models.WorldTransformDto WorldTransformDto { get; set; }
-#endif
-            /// <summary>
-            /// Creates a new instance of the appropriate class based on discriminator value
-            /// </summary>
-            /// <returns>A <see cref="global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform"/></returns>
-            /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-            public static global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform CreateFromDiscriminatorValue(IParseNode parseNode)
-            {
-                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-                var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
-                var result = new global::ELifeRPG.BackendApiClient.Models.ItemParentDto.ItemParentDto_transform();
-                if("WorldTransformDto".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.WorldTransformDto = new global::ELifeRPG.BackendApiClient.Models.WorldTransformDto();
-                }
-                return result;
-            }
-            /// <summary>
-            /// The deserialization information for the current model
-            /// </summary>
-            /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
-            public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
-            {
-                if(ItemParentDtoTransformMember1 != null)
-                {
-                    return ItemParentDtoTransformMember1.GetFieldDeserializers();
-                }
-                else if(WorldTransformDto != null)
-                {
-                    return WorldTransformDto.GetFieldDeserializers();
-                }
-                return new Dictionary<string, Action<IParseNode>>();
-            }
-            /// <summary>
-            /// Serializes information the current object
-            /// </summary>
-            /// <param name="writer">Serialization writer to use to serialize this model</param>
-            public virtual void Serialize(ISerializationWriter writer)
-            {
-                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-                if(ItemParentDtoTransformMember1 != null)
-                {
-                    writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.ItemParentDto_transformMember1>(null, ItemParentDtoTransformMember1);
-                }
-                else if(WorldTransformDto != null)
-                {
-                    writer.WriteObjectValue<global::ELifeRPG.BackendApiClient.Models.WorldTransformDto>(null, WorldTransformDto);
-                }
-            }
         }
     }
 }
