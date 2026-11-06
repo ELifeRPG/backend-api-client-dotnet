@@ -4,7 +4,7 @@
     <PackageId>ELifeRPG.BackendApiClient</PackageId>
     <Description>Kiota-generated C# client for the ELifeRPG Central API (eliferpg-core).</Description>
     <RepositoryUrl>https://github.com/ELifeRPG/backend-api-client-dotnet</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
