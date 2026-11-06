@@ -38,6 +38,22 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public string Number { get; set; }
 #endif
+        /// <summary>The transactionFeeBase property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? TransactionFeeBase { get; set; }
+#nullable restore
+#else
+        public UntypedNode TransactionFeeBase { get; set; }
+#endif
+        /// <summary>The transactionFeeMultiplier property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public UntypedNode? TransactionFeeMultiplier { get; set; }
+#nullable restore
+#else
+        public UntypedNode TransactionFeeMultiplier { get; set; }
+#endif
         /// <summary>The type property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -77,6 +93,8 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "characterId", n => { CharacterId = n.GetGuidValue(); } },
                 { "companyId", n => { CompanyId = n.GetGuidValue(); } },
                 { "number", n => { Number = n.GetStringValue(); } },
+                { "transactionFeeBase", n => { TransactionFeeBase = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "transactionFeeMultiplier", n => { TransactionFeeMultiplier = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "type", n => { Type = n.GetStringValue(); } },
             };
         }
@@ -93,6 +111,8 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("characterId", CharacterId);
             writer.WriteGuidValue("companyId", CompanyId);
             writer.WriteStringValue("number", Number);
+            writer.WriteObjectValue<UntypedNode>("transactionFeeBase", TransactionFeeBase);
+            writer.WriteObjectValue<UntypedNode>("transactionFeeMultiplier", TransactionFeeMultiplier);
             writer.WriteStringValue("type", Type);
             writer.WriteAdditionalData(AdditionalData);
         }
