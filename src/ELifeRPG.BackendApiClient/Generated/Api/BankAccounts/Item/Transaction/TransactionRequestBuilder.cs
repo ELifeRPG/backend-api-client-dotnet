@@ -40,6 +40,7 @@ namespace ELifeRPG.BackendApiClient.Api.BankAccounts.Item.Transaction
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 400 status code</exception>
         /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 403 status code</exception>
         /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 404 status code</exception>
         /// <exception cref="global::ELifeRPG.BackendApiClient.Models.ProblemDetails">When receiving a 409 status code</exception>
@@ -56,6 +57,7 @@ namespace ELifeRPG.BackendApiClient.Api.BankAccounts.Item.Transaction
             var requestInfo = ToPutRequestInformation(body, requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
+                { "400", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
                 { "403", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
                 { "404", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
                 { "409", global::ELifeRPG.BackendApiClient.Models.ProblemDetails.CreateFromDiscriminatorValue },
