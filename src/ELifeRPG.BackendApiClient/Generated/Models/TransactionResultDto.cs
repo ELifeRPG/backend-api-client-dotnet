@@ -38,6 +38,8 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public UntypedNode NewBalance { get; set; }
 #endif
+        /// <summary>The transactionId property</summary>
+        public Guid? TransactionId { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.TransactionResultDto"/> and sets the default values.
         /// </summary>
@@ -66,6 +68,7 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "amount", n => { Amount = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "fee", n => { Fee = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "newBalance", n => { NewBalance = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "transactionId", n => { TransactionId = n.GetGuidValue(); } },
             };
         }
         /// <summary>
@@ -78,6 +81,7 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteObjectValue<UntypedNode>("amount", Amount);
             writer.WriteObjectValue<UntypedNode>("fee", Fee);
             writer.WriteObjectValue<UntypedNode>("newBalance", NewBalance);
+            writer.WriteGuidValue("transactionId", TransactionId);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

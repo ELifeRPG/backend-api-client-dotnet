@@ -24,6 +24,14 @@ namespace ELifeRPG.BackendApiClient.Models
 #endif
         /// <summary>The characterId property</summary>
         public Guid? CharacterId { get; set; }
+        /// <summary>The source property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Source { get; set; }
+#nullable restore
+#else
+        public string Source { get; set; }
+#endif
         /// <summary>The targetBankAccountId property</summary>
         public Guid? TargetBankAccountId { get; set; }
         /// <summary>
@@ -53,6 +61,7 @@ namespace ELifeRPG.BackendApiClient.Models
             {
                 { "amount", n => { Amount = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "characterId", n => { CharacterId = n.GetGuidValue(); } },
+                { "source", n => { Source = n.GetStringValue(); } },
                 { "targetBankAccountId", n => { TargetBankAccountId = n.GetGuidValue(); } },
             };
         }
@@ -65,6 +74,7 @@ namespace ELifeRPG.BackendApiClient.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteObjectValue<UntypedNode>("amount", Amount);
             writer.WriteGuidValue("characterId", CharacterId);
+            writer.WriteStringValue("source", Source);
             writer.WriteGuidValue("targetBankAccountId", TargetBankAccountId);
             writer.WriteAdditionalData(AdditionalData);
         }

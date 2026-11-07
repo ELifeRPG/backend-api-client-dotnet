@@ -15,6 +15,14 @@ namespace ELifeRPG.BackendApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
+        /// <summary>Stable machine-readable reason for the problem, where the endpoint defines one. See docs/banking.md.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Code { get; set; }
+#nullable restore
+#else
+        public string Code { get; set; }
+#endif
         /// <summary>The detail property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -33,7 +41,7 @@ namespace ELifeRPG.BackendApiClient.Models
 #endif
         /// <summary>The primary error message.</summary>
         public override string Message { get => base.Message; }
-        /// <summary>Whether resending this exact request unmodified can succeed. Present on every problem the World module returns; absent elsewhere, and an absent value means false. See docs/bridge.md.</summary>
+        /// <summary>Whether resending this exact request unmodified can succeed. Present on every problem the World module returns and on the banking booking conflicts; absent elsewhere, and an absent value means false. See docs/bridge.md.</summary>
         public bool? Retryable { get; set; }
         /// <summary>The status property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -84,6 +92,7 @@ namespace ELifeRPG.BackendApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "code", n => { Code = n.GetStringValue(); } },
                 { "detail", n => { Detail = n.GetStringValue(); } },
                 { "instance", n => { Instance = n.GetStringValue(); } },
                 { "retryable", n => { Retryable = n.GetBoolValue(); } },
@@ -99,6 +108,7 @@ namespace ELifeRPG.BackendApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("code", Code);
             writer.WriteStringValue("detail", Detail);
             writer.WriteStringValue("instance", Instance);
             writer.WriteBoolValue("retryable", Retryable);

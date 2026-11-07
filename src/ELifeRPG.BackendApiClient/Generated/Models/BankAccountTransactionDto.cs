@@ -42,6 +42,8 @@ namespace ELifeRPG.BackendApiClient.Models
 #else
         public UntypedNode Fee { get; set; }
 #endif
+        /// <summary>The gameServerId property</summary>
+        public Guid? GameServerId { get; set; }
         /// <summary>The kind property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -52,6 +54,16 @@ namespace ELifeRPG.BackendApiClient.Models
 #endif
         /// <summary>The occurredAt property</summary>
         public DateTimeOffset? OccurredAt { get; set; }
+        /// <summary>The source property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Source { get; set; }
+#nullable restore
+#else
+        public string Source { get; set; }
+#endif
+        /// <summary>The transactionId property</summary>
+        public Guid? TransactionId { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::ELifeRPG.BackendApiClient.Models.BankAccountTransactionDto"/> and sets the default values.
         /// </summary>
@@ -82,8 +94,11 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "counterpartyBankAccountId", n => { CounterpartyBankAccountId = n.GetGuidValue(); } },
                 { "counterpartyNumber", n => { CounterpartyNumber = n.GetStringValue(); } },
                 { "fee", n => { Fee = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
+                { "gameServerId", n => { GameServerId = n.GetGuidValue(); } },
                 { "kind", n => { Kind = n.GetStringValue(); } },
                 { "occurredAt", n => { OccurredAt = n.GetDateTimeOffsetValue(); } },
+                { "source", n => { Source = n.GetStringValue(); } },
+                { "transactionId", n => { TransactionId = n.GetGuidValue(); } },
             };
         }
         /// <summary>
@@ -98,8 +113,11 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("counterpartyBankAccountId", CounterpartyBankAccountId);
             writer.WriteStringValue("counterpartyNumber", CounterpartyNumber);
             writer.WriteObjectValue<UntypedNode>("fee", Fee);
+            writer.WriteGuidValue("gameServerId", GameServerId);
             writer.WriteStringValue("kind", Kind);
             writer.WriteDateTimeOffsetValue("occurredAt", OccurredAt);
+            writer.WriteStringValue("source", Source);
+            writer.WriteGuidValue("transactionId", TransactionId);
             writer.WriteAdditionalData(AdditionalData);
         }
     }
