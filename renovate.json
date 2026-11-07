@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommits"],
+  "packageRules": [
+    {
+      "description": "The Kiota tool and Microsoft.Kiota.Bundle shape the generated client. The release workflow publishes every regenerated client, so a Kiota update can ship a breaking major to the Bridge. They move together, and only after approval on the Dependency Dashboard.",
+      "groupName": "Kiota",
+      "matchPackageNames": ["microsoft.openapi.kiota", "Microsoft.Kiota.**"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "The .NET SDK in global.json and in the workflows move together.",
+      "groupName": ".NET SDK",
+      "matchDatasources": ["dotnet-version"]
+    }
+  ]
+}
