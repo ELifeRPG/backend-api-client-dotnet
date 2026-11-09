@@ -30,6 +30,14 @@ namespace ELifeRPG.BackendApiClient.Models
         public Guid? CharacterId { get; set; }
         /// <summary>The companyId property</summary>
         public Guid? CompanyId { get; set; }
+        /// <summary>The companyName property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? CompanyName { get; set; }
+#nullable restore
+#else
+        public string CompanyName { get; set; }
+#endif
         /// <summary>The number property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -92,6 +100,7 @@ namespace ELifeRPG.BackendApiClient.Models
                 { "bankId", n => { BankId = n.GetGuidValue(); } },
                 { "characterId", n => { CharacterId = n.GetGuidValue(); } },
                 { "companyId", n => { CompanyId = n.GetGuidValue(); } },
+                { "companyName", n => { CompanyName = n.GetStringValue(); } },
                 { "number", n => { Number = n.GetStringValue(); } },
                 { "transactionFeeBase", n => { TransactionFeeBase = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
                 { "transactionFeeMultiplier", n => { TransactionFeeMultiplier = n.GetObjectValue<UntypedNode>(UntypedNode.CreateFromDiscriminatorValue); } },
@@ -110,6 +119,7 @@ namespace ELifeRPG.BackendApiClient.Models
             writer.WriteGuidValue("bankId", BankId);
             writer.WriteGuidValue("characterId", CharacterId);
             writer.WriteGuidValue("companyId", CompanyId);
+            writer.WriteStringValue("companyName", CompanyName);
             writer.WriteStringValue("number", Number);
             writer.WriteObjectValue<UntypedNode>("transactionFeeBase", TransactionFeeBase);
             writer.WriteObjectValue<UntypedNode>("transactionFeeMultiplier", TransactionFeeMultiplier);
